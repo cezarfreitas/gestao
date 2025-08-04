@@ -4,8 +4,8 @@ FROM node:18-alpine AS builder
 # Set working directory
 WORKDIR /app
 
-# Copy package files
-COPY package*.json ./
+# Copy package files and npm config
+COPY package*.json .npmrc ./
 
 # Install dependencies with legacy peer deps to handle conflicts
 RUN npm ci --legacy-peer-deps
@@ -29,8 +29,8 @@ RUN adduser -S nodejs -u 1001
 # Set working directory
 WORKDIR /app
 
-# Copy package files
-COPY package*.json ./
+# Copy package files and npm config
+COPY package*.json .npmrc ./
 
 # Install only production dependencies
 RUN npm ci --omit=dev --legacy-peer-deps && npm cache clean --force
