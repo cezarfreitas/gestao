@@ -25,18 +25,19 @@ import {
 export function createServer() {
   const app = express();
 
-  // Initialize database on startup
+  // Try to initialize database on startup (graceful fallback if it fails)
   initializeDatabase()
     .then(() => {
-      console.log('📊 Database initialized successfully');
+      console.log('📊 Database connected and initialized successfully');
       // Insert sample data only if needed
       return insertSampleData();
     })
     .then(() => {
-      console.log('🔧 Sample data inserted successfully');
+      console.log('🔧 Sample data ready');
     })
     .catch((error) => {
-      console.error('❌ Database initialization failed:', error);
+      console.warn('⚠️  Database connection failed, using fallback mock data:', error.message);
+      console.log('📝 To fix this, ensure the current IP is whitelisted in MySQL server');
     });
 
   // Middleware
