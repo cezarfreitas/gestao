@@ -1,0 +1,568 @@
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { 
+  Users, 
+  TrendingUp, 
+  Code,
+  Eye,
+  Activity,
+  Globe,
+  Copy,
+  Plus,
+  Settings,
+  Trash2,
+  Edit,
+  Download,
+  RefreshCw,
+  BarChart3,
+  ExternalLink,
+  CheckCircle,
+  AlertCircle,
+  Clock
+} from "lucide-react";
+
+interface Pixel {
+  id: string;
+  name: string;
+  description: string;
+  code: string;
+  status: 'active' | 'inactive' | 'testing';
+  site: string;
+  createdAt: string;
+  lastHit: string;
+  totalHits: number;
+  uniqueVisitors: number;
+  conversions: number;
+  conversionRate: number;
+}
+
+const mockPixels: Pixel[] = [
+  {
+    id: "px_001",
+    name: "Ecko Streetwear - Homepage",
+    description: "Pixel principal para tracking da homepage",
+    code: "px_001_ecko_main",
+    status: "active",
+    site: "https://ecko.com.br",
+    createdAt: "2024-01-10T10:00:00.000Z",
+    lastHit: "2024-01-15T14:30:00.000Z",
+    totalHits: 15420,
+    uniqueVisitors: 8930,
+    conversions: 234,
+    conversionRate: 2.62
+  },
+  {
+    id: "px_002",
+    name: "Ecko Kids - Landing Page",
+    description: "Tracking específico para campanhas do Ecko Kids",
+    code: "px_002_kids_lp",
+    status: "active",
+    site: "https://kids.ecko.com.br",
+    createdAt: "2024-01-08T15:20:00.000Z",
+    lastHit: "2024-01-15T13:45:00.000Z",
+    totalHits: 8760,
+    uniqueVisitors: 5240,
+    conversions: 156,
+    conversionRate: 2.98
+  },
+  {
+    id: "px_003",
+    name: "Ecko Outlet - Promoções",
+    description: "Pixel para campanhas promocionais do outlet",
+    code: "px_003_outlet_promo",
+    status: "testing",
+    site: "https://outlet.ecko.com.br",
+    createdAt: "2024-01-14T09:15:00.000Z",
+    lastHit: "2024-01-15T12:20:00.000Z",
+    totalHits: 1240,
+    uniqueVisitors: 890,
+    conversions: 23,
+    conversionRate: 2.58
+  }
+];
+
+const generatePixelCode = (pixelId: string, siteName: string) => {
+  return `<!-- Ecko Pixel Tracking -->
+<script type="text/javascript">
+(function() {
+  var eckoPixel = {
+    id: "${pixelId}",
+    site: "${siteName}",
+    version: "1.0.0"
+  };
+  
+  function trackEvent(eventType, data) {
+    fetch('https://api.ecko.com.br/pixel/track', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        pixelId: eckoPixel.id,
+        site: eckoPixel.site,
+        eventType: eventType,
+        timestamp: new Date().toISOString(),
+        url: window.location.href,
+        referrer: document.referrer,
+        userAgent: navigator.userAgent,
+        ...data
+      })
+    }).catch(function(error) {
+      console.error('Ecko Pixel Error:', error);
+    });
+  }
+  
+  // Track page view
+  trackEvent('pageview', {
+    title: document.title,
+    path: window.location.pathname
+  });
+  
+  // Track form submissions
+  document.addEventListener('submit', function(e) {
+    if (e.target.tagName === 'FORM') {
+      trackEvent('form_submit', {
+        formId: e.target.id || 'unknown',
+        formAction: e.target.action || window.location.href
+      });
+    }
+  });
+  
+  // Track clicks on CTA buttons
+  document.addEventListener('click', function(e) {
+    if (e.target.matches('[data-ecko-track], .btn-cta, .hero-cta, .footer-cta')) {
+      trackEvent('cta_click', {
+        element: e.target.tagName,
+        text: e.target.textContent || e.target.value,
+        class: e.target.className,
+        id: e.target.id
+      });
+    }
+  });
+  
+  window.eckoPixel = eckoPixel;
+})();
+</script>
+<!-- End Ecko Pixel -->`;
+};
+
+const getStatusColor = (status: string) => {
+  switch (status) {
+    case "active": return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200";
+    case "inactive": return "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200";
+    case "testing": return "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200";
+    default: return "bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200";
+  }
+};
+
+const formatDate = (dateString: string) => {
+  return new Date(dateString).toLocaleDateString('pt-BR', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit'
+  });
+};
+
+export default function Pixel() {
+  const [pixels, setPixels] = useState<Pixel[]>(mockPixels);
+  const [showCreateDialog, setShowCreateDialog] = useState(false);
+  const [selectedPixel, setSelectedPixel] = useState<Pixel | null>(null);
+  const [newPixel, setNewPixel] = useState({
+    name: "",
+    description: "",
+    site: ""
+  });
+
+  const totalHits = pixels.reduce((sum, pixel) => sum + pixel.totalHits, 0);
+  const totalVisitors = pixels.reduce((sum, pixel) => sum + pixel.uniqueVisitors, 0);
+  const totalConversions = pixels.reduce((sum, pixel) => sum + pixel.conversions, 0);
+  const avgConversionRate = pixels.length > 0 ? 
+    pixels.reduce((sum, pixel) => sum + pixel.conversionRate, 0) / pixels.length : 0;
+
+  const handleCreatePixel = () => {
+    if (!newPixel.name || !newPixel.site) return;
+    
+    const pixelId = `px_${Date.now().toString().slice(-6)}`;
+    const newPixelData: Pixel = {
+      id: pixelId,
+      name: newPixel.name,
+      description: newPixel.description,
+      code: `${pixelId}_${newPixel.site.replace(/[^a-zA-Z0-9]/g, '_').toLowerCase()}`,
+      status: "testing",
+      site: newPixel.site,
+      createdAt: new Date().toISOString(),
+      lastHit: new Date().toISOString(),
+      totalHits: 0,
+      uniqueVisitors: 0,
+      conversions: 0,
+      conversionRate: 0
+    };
+    
+    setPixels([...pixels, newPixelData]);
+    setNewPixel({ name: "", description: "", site: "" });
+    setShowCreateDialog(false);
+  };
+
+  const copyToClipboard = (text: string) => {
+    navigator.clipboard.writeText(text);
+    // You could add a toast notification here
+  };
+
+  return (
+    <div className="min-h-screen bg-background">
+      {/* Header */}
+      <header className="border-b bg-card">
+        <div className="container mx-auto px-6 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-6">
+              <div className="flex items-center space-x-4">
+                <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+                  <span className="text-primary-foreground font-bold text-lg">E</span>
+                </div>
+                <div>
+                  <h1 className="text-2xl font-bold text-foreground">Ecko Streetwear</h1>
+                  <p className="text-sm text-muted-foreground">Sistema de Gestão de Leads</p>
+                </div>
+              </div>
+              
+              {/* Navigation Menu */}
+              <nav className="hidden md:flex items-center space-x-6">
+                <Link 
+                  to="/" 
+                  className="flex items-center space-x-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  <Users className="w-4 h-4" />
+                  <span>Leads</span>
+                </Link>
+                <Link 
+                  to="/dashboards" 
+                  className="flex items-center space-x-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  <BarChart3 className="w-4 h-4" />
+                  <span>Análises</span>
+                </Link>
+                <Link 
+                  to="/pixel" 
+                  className="flex items-center space-x-2 text-sm font-medium text-foreground hover:text-primary transition-colors"
+                >
+                  <Code className="w-4 h-4" />
+                  <span>Pixel</span>
+                </Link>
+              </nav>
+            </div>
+            <div className="flex items-center space-x-2">
+              <Dialog open={showCreateDialog} onOpenChange={setShowCreateDialog}>
+                <DialogTrigger asChild>
+                  <Button size="sm">
+                    <Plus className="w-4 h-4 mr-2" />
+                    Novo Pixel
+                  </Button>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>Criar Novo Pixel</DialogTitle>
+                  </DialogHeader>
+                  <div className="space-y-4">
+                    <div>
+                      <Label htmlFor="name">Nome do Pixel</Label>
+                      <Input
+                        id="name"
+                        value={newPixel.name}
+                        onChange={(e) => setNewPixel({...newPixel, name: e.target.value})}
+                        placeholder="Ex: Ecko Homepage - Campanha Black Friday"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="site">URL do Site</Label>
+                      <Input
+                        id="site"
+                        value={newPixel.site}
+                        onChange={(e) => setNewPixel({...newPixel, site: e.target.value})}
+                        placeholder="https://exemplo.com.br"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="description">Descrição (opcional)</Label>
+                      <Textarea
+                        id="description"
+                        value={newPixel.description}
+                        onChange={(e) => setNewPixel({...newPixel, description: e.target.value})}
+                        placeholder="Descrição do uso deste pixel..."
+                      />
+                    </div>
+                    <Button onClick={handleCreatePixel} className="w-full">
+                      Criar Pixel
+                    </Button>
+                  </div>
+                </DialogContent>
+              </Dialog>
+              <Button variant="outline" size="sm">
+                <Download className="w-4 h-4 mr-2" />
+                Exportar
+              </Button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <div className="container mx-auto px-6 py-8">
+        {/* Stats Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Total de Hits</CardTitle>
+              <Activity className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">{totalHits.toLocaleString()}</div>
+              <p className="text-xs text-muted-foreground">
+                {totalVisitors.toLocaleString()} visitantes únicos
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Pixels Ativos</CardTitle>
+              <CheckCircle className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">
+                {pixels.filter(p => p.status === 'active').length}
+              </div>
+              <p className="text-xs text-muted-foreground">
+                {pixels.length} pixels totais
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Conversões</CardTitle>
+              <TrendingUp className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">{totalConversions}</div>
+              <p className="text-xs text-muted-foreground">
+                {avgConversionRate.toFixed(2)}% taxa média
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Performance</CardTitle>
+              <BarChart3 className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">
+                {totalVisitors > 0 ? ((totalHits / totalVisitors) * 100).toFixed(1) : 0}%
+              </div>
+              <p className="text-xs text-muted-foreground">
+                Taxa de engajamento
+              </p>
+            </CardContent>
+          </Card>
+        </div>
+
+        <Tabs defaultValue="pixels" className="space-y-6">
+          <TabsList>
+            <TabsTrigger value="pixels">Meus Pixels</TabsTrigger>
+            <TabsTrigger value="analytics">Analytics</TabsTrigger>
+            <TabsTrigger value="documentation">Documentação</TabsTrigger>
+          </TabsList>
+
+          {/* Pixels List Tab */}
+          <TabsContent value="pixels" className="space-y-6">
+            <div className="grid gap-6">
+              {pixels.map((pixel) => (
+                <Card key={pixel.id}>
+                  <CardHeader>
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-4">
+                        <div>
+                          <CardTitle className="text-lg">{pixel.name}</CardTitle>
+                          <p className="text-sm text-muted-foreground">{pixel.description}</p>
+                        </div>
+                        <Badge className={getStatusColor(pixel.status)}>
+                          {pixel.status}
+                        </Badge>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <Button 
+                          variant="outline" 
+                          size="sm"
+                          onClick={() => setSelectedPixel(pixel)}
+                        >
+                          <Code className="w-4 h-4 mr-2" />
+                          Ver Código
+                        </Button>
+                        <Button variant="outline" size="sm">
+                          <Edit className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+                      <div>
+                        <p className="text-sm font-medium text-muted-foreground">Site</p>
+                        <div className="flex items-center space-x-1">
+                          <Globe className="w-3 h-3" />
+                          <a 
+                            href={pixel.site} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="text-sm text-primary hover:underline"
+                          >
+                            {new URL(pixel.site).hostname}
+                          </a>
+                        </div>
+                      </div>
+                      <div>
+                        <p className="text-sm font-medium text-muted-foreground">Total Hits</p>
+                        <p className="text-sm font-bold">{pixel.totalHits.toLocaleString()}</p>
+                      </div>
+                      <div>
+                        <p className="text-sm font-medium text-muted-foreground">Visitantes</p>
+                        <p className="text-sm font-bold">{pixel.uniqueVisitors.toLocaleString()}</p>
+                      </div>
+                      <div>
+                        <p className="text-sm font-medium text-muted-foreground">Conversões</p>
+                        <p className="text-sm font-bold">{pixel.conversions}</p>
+                      </div>
+                      <div>
+                        <p className="text-sm font-medium text-muted-foreground">Último Hit</p>
+                        <p className="text-sm">{formatDate(pixel.lastHit)}</p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </TabsContent>
+
+          {/* Analytics Tab */}
+          <TabsContent value="analytics" className="space-y-6">
+            <Card>
+              <CardHeader>
+                <CardTitle>Performance dos Pixels</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  {pixels.map((pixel) => (
+                    <div key={pixel.id} className="flex items-center justify-between p-3 border rounded-lg">
+                      <div>
+                        <h3 className="font-medium">{pixel.name}</h3>
+                        <p className="text-sm text-muted-foreground">{pixel.site}</p>
+                      </div>
+                      <div className="text-right">
+                        <div className="text-lg font-bold">{pixel.conversionRate.toFixed(2)}%</div>
+                        <div className="text-sm text-muted-foreground">
+                          {pixel.conversions}/{pixel.uniqueVisitors} conversões
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          {/* Documentation Tab */}
+          <TabsContent value="documentation" className="space-y-6">
+            <Card>
+              <CardHeader>
+                <CardTitle>Como Usar o Pixel Ecko</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div>
+                  <h3 className="text-lg font-semibold mb-2">1. Criando um Pixel</h3>
+                  <p className="text-muted-foreground">
+                    Clique em "Novo Pixel" e preencha as informações do seu site. 
+                    O sistema irá gerar automaticamente um código de tracking único.
+                  </p>
+                </div>
+                
+                <div>
+                  <h3 className="text-lg font-semibold mb-2">2. Instalando o Código</h3>
+                  <p className="text-muted-foreground">
+                    Copie o código gerado e cole no &lt;head&gt; de todas as páginas do seu site 
+                    que você deseja rastrear.
+                  </p>
+                </div>
+                
+                <div>
+                  <h3 className="text-lg font-semibold mb-2">3. Eventos Rastreados</h3>
+                  <ul className="list-disc list-inside text-muted-foreground space-y-1">
+                    <li>Visualizações de página automáticas</li>
+                    <li>Envios de formulário</li>
+                    <li>Cliques em botões CTA (elementos com classes: .btn-cta, .hero-cta, .footer-cta)</li>
+                    <li>Elementos com atributo data-ecko-track</li>
+                  </ul>
+                </div>
+                
+                <div>
+                  <h3 className="text-lg font-semibold mb-2">4. Monitoramento</h3>
+                  <p className="text-muted-foreground">
+                    Acompanhe o desempenho do seu pixel na aba "Analytics" e veja 
+                    dados detalhados de conversões e engajamento.
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+        </Tabs>
+
+        {/* Pixel Code Dialog */}
+        {selectedPixel && (
+          <Dialog open={!!selectedPixel} onOpenChange={() => setSelectedPixel(null)}>
+            <DialogContent className="max-w-4xl">
+              <DialogHeader>
+                <DialogTitle>Código do Pixel: {selectedPixel.name}</DialogTitle>
+              </DialogHeader>
+              <div className="space-y-4">
+                <div>
+                  <Label>Código para Instalação</Label>
+                  <div className="relative">
+                    <pre className="bg-muted p-4 rounded-lg text-sm overflow-x-auto">
+                      <code>{generatePixelCode(selectedPixel.code, selectedPixel.site)}</code>
+                    </pre>
+                    <Button
+                      className="absolute top-2 right-2"
+                      size="sm"
+                      variant="outline"
+                      onClick={() => copyToClipboard(generatePixelCode(selectedPixel.code, selectedPixel.site))}
+                    >
+                      <Copy className="w-4 h-4" />
+                    </Button>
+                  </div>
+                </div>
+                <div className="bg-blue-50 dark:bg-blue-950 p-4 rounded-lg">
+                  <h4 className="font-medium text-blue-900 dark:text-blue-100 mb-2">
+                    Instruções de Instalação
+                  </h4>
+                  <p className="text-sm text-blue-700 dark:text-blue-300">
+                    Cole este código no &lt;head&gt; de todas as páginas do seu site. 
+                    O pixel começará a coletar dados automaticamente após a instalação.
+                  </p>
+                </div>
+              </div>
+            </DialogContent>
+          </Dialog>
+        )}
+      </div>
+    </div>
+  );
+}
