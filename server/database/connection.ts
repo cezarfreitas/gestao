@@ -7,9 +7,8 @@ const dbConfig = {
   user: 'leadsntk',
   password: 'cbfb25e40439aa14fed4',
   database: 'leadsntk',
-  connectionLimit: 10,
-  connectTimeout: 60000,
-  acquireTimeout: 60000,
+  connectionLimit: 5,
+  connectTimeout: 20000,
   waitForConnections: true,
   queueLimit: 0
 };
