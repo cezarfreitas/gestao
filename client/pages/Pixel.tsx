@@ -53,7 +53,7 @@ const generatePixelCode = (pixelId: string, siteName: string) => {
 (function(){
 var p={id:"${pixelId}",site:"${siteName}",v:"1.0"};
 function t(e,d){
-fetch('/api/pixel/track',{
+fetch('https://ntk.idenegociosdigitais.com.br/api/pixel/track',{
 method:'POST',
 headers:{'Content-Type':'application/json'},
 body:JSON.stringify({
