@@ -227,6 +227,13 @@ export default function Index() {
                   <TrendingUp className="w-4 h-4" />
                   <span>Análises</span>
                 </Link>
+                <Link
+                  to="/pixel"
+                  className="flex items-center space-x-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  <Eye className="w-4 h-4" />
+                  <span>Pixel</span>
+                </Link>
               </nav>
             </div>
             <div className="flex items-center space-x-2">
