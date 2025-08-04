@@ -10,6 +10,16 @@ import {
   updateLead,
   deleteLead
 } from "./routes/leads";
+import {
+  trackPixelEvent,
+  getPixels,
+  getPixelById,
+  createPixel,
+  updatePixel,
+  deletePixel,
+  getPixelAnalytics,
+  getPixelEvents
+} from "./routes/pixel";
 
 export function createServer() {
   const app = express();
