@@ -8,9 +8,10 @@ const dbConfig = {
   password: 'cbfb25e40439aa14fed4',
   database: 'leadsntk',
   connectionLimit: 10,
+  connectTimeout: 60000,
   acquireTimeout: 60000,
-  timeout: 60000,
-  reconnect: true
+  waitForConnections: true,
+  queueLimit: 0
 };
 
 // Create connection pool
