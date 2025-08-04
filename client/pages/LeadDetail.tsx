@@ -116,20 +116,40 @@ export default function LeadDetail() {
       <header className="border-b bg-card">
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
-              <Link to="/">
-                <Button variant="ghost" size="sm">
-                  <ArrowLeft className="w-4 h-4 mr-2" />
-                  Voltar
-                </Button>
-              </Link>
-              <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-                <span className="text-primary-foreground font-bold text-lg">E</span>
+            <div className="flex items-center space-x-6">
+              <div className="flex items-center space-x-4">
+                <Link to="/">
+                  <Button variant="ghost" size="sm">
+                    <ArrowLeft className="w-4 h-4 mr-2" />
+                    Voltar
+                  </Button>
+                </Link>
+                <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+                  <span className="text-primary-foreground font-bold text-lg">E</span>
+                </div>
+                <div>
+                  <h1 className="text-2xl font-bold text-foreground">Detalhes do Lead</h1>
+                  <p className="text-sm text-muted-foreground">Informações completas do prospecto</p>
+                </div>
               </div>
-              <div>
-                <h1 className="text-2xl font-bold text-foreground">Detalhes do Lead</h1>
-                <p className="text-sm text-muted-foreground">Informações completas do prospecto</p>
-              </div>
+
+              {/* Navigation Menu */}
+              <nav className="hidden md:flex items-center space-x-6">
+                <Link
+                  to="/"
+                  className="flex items-center space-x-2 text-sm font-medium text-foreground hover:text-primary transition-colors"
+                >
+                  <User className="w-4 h-4" />
+                  <span>Dashboard</span>
+                </Link>
+                <Link
+                  to="/"
+                  className="flex items-center space-x-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  <Building className="w-4 h-4" />
+                  <span>Leads</span>
+                </Link>
+              </nav>
             </div>
             <div className="flex items-center space-x-2">
               <Button variant="outline" size="sm">
