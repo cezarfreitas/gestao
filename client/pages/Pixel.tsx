@@ -371,8 +371,19 @@ export default function Pixel() {
 
           {/* Pixels List Tab */}
           <TabsContent value="pixels" className="space-y-6">
-            <div className="grid gap-6">
-              {pixels.map((pixel) => (
+            {loading ? (
+              <div className="flex items-center justify-center py-8">
+                <div className="animate-spin w-8 h-8 border-2 border-primary border-t-transparent rounded-full"></div>
+                <span className="ml-3 text-muted-foreground">Carregando pixels...</span>
+              </div>
+            ) : pixels.length === 0 ? (
+              <div className="text-center py-8">
+                <p className="text-muted-foreground mb-4">Nenhum pixel encontrado</p>
+                <p className="text-sm text-muted-foreground">Clique em "Novo Pixel" para criar seu primeiro pixel de tracking</p>
+              </div>
+            ) : (
+              <div className="grid gap-6">
+                {pixels.map((pixel) => (
                 <Card key={pixel.id}>
                   <CardHeader>
                     <div className="flex items-center justify-between">
@@ -435,8 +446,9 @@ export default function Pixel() {
                     </div>
                   </CardContent>
                 </Card>
-              ))}
-            </div>
+                ))}
+              </div>
+            )}
           </TabsContent>
 
           {/* Analytics Tab */}
