@@ -132,7 +132,8 @@ const formatDate = (dateString: string) => {
 };
 
 export default function Pixel() {
-  const [pixels, setPixels] = useState<Pixel[]>(mockPixels);
+  const [pixels, setPixels] = useState<Pixel[]>([]);
+  const [loading, setLoading] = useState(true);
   const [showCreateDialog, setShowCreateDialog] = useState(false);
   const [selectedPixel, setSelectedPixel] = useState<Pixel | null>(null);
   const [newPixel, setNewPixel] = useState({
@@ -140,6 +141,29 @@ export default function Pixel() {
     description: "",
     site: ""
   });
+
+  // Fetch pixels from database
+  const fetchPixels = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch('/api/pixels');
+      if (response.ok) {
+        const data = await response.json();
+        setPixels(data);
+      } else {
+        console.error('Failed to fetch pixels');
+      }
+    } catch (error) {
+      console.error('Error fetching pixels:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Load pixels on component mount
+  useEffect(() => {
+    fetchPixels();
+  }, []);
 
   const totalHits = pixels.reduce((sum, pixel) => sum + pixel.totalHits, 0);
   const totalVisitors = pixels.reduce((sum, pixel) => sum + pixel.uniqueVisitors, 0);
