@@ -2,6 +2,14 @@ import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import { handleDemo } from "./routes/demo";
+import {
+  getLeads,
+  getLeadStats,
+  getLeadById,
+  createLead,
+  updateLead,
+  deleteLead
+} from "./routes/leads";
 
 export function createServer() {
   const app = express();
