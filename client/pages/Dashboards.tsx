@@ -320,6 +320,110 @@ export default function Dashboards() {
           </Card>
         </div>
 
+        {/* Daily Leads Chart */}
+        <Card className="mb-8">
+          <CardHeader>
+            <div className="flex items-center justify-between">
+              <CardTitle className="flex items-center space-x-2">
+                <Activity className="w-5 h-5" />
+                <span>Entrada de Leads - Últimos 30 Dias</span>
+              </CardTitle>
+              <div className="flex items-center space-x-2 text-sm text-muted-foreground">
+                <span>Total: {dailyLeadsData.reduce((sum, day) => sum + day.leads, 0)} leads</span>
+                <span>•</span>
+                <span>Média: {Math.round(dailyLeadsData.reduce((sum, day) => sum + day.leads, 0) / dailyLeadsData.length)} leads/dia</span>
+              </div>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="h-80">
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={dailyLeadsData}>
+                  <defs>
+                    <linearGradient id="colorLeads" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.3}/>
+                      <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0}/>
+                    </linearGradient>
+                  </defs>
+                  <CartesianGrid strokeDasharray="3 3" className="opacity-30" />
+                  <XAxis
+                    dataKey="date"
+                    tick={{ fontSize: 12 }}
+                    tickLine={{ stroke: 'hsl(var(--muted-foreground))', strokeWidth: 1 }}
+                    axisLine={{ stroke: 'hsl(var(--border))' }}
+                  />
+                  <YAxis
+                    tick={{ fontSize: 12 }}
+                    tickLine={{ stroke: 'hsl(var(--muted-foreground))', strokeWidth: 1 }}
+                    axisLine={{ stroke: 'hsl(var(--border))' }}
+                  />
+                  <Tooltip
+                    contentStyle={{
+                      backgroundColor: 'hsl(var(--card))',
+                      border: '1px solid hsl(var(--border))',
+                      borderRadius: '6px',
+                      boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)'
+                    }}
+                    labelStyle={{ color: 'hsl(var(--foreground))' }}
+                    formatter={(value: any, name: string) => [
+                      `${value} leads`,
+                      name === 'leads' ? 'Leads do Dia' : name
+                    ]}
+                    labelFormatter={(label: any, payload: any) => {
+                      if (payload && payload[0]) {
+                        return `Data: ${payload[0].payload.fullDate}`;
+                      }
+                      return `Data: ${label}`;
+                    }}
+                  />
+                  <Area
+                    type="monotone"
+                    dataKey="leads"
+                    stroke="hsl(var(--primary))"
+                    strokeWidth={2}
+                    fillOpacity={1}
+                    fill="url(#colorLeads)"
+                  />
+                </AreaChart>
+              </ResponsiveContainer>
+            </div>
+
+            {/* Daily insights */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6 pt-6 border-t">
+              <div className="text-center">
+                <div className="text-2xl font-bold text-green-600 dark:text-green-400">
+                  {Math.max(...dailyLeadsData.map(d => d.leads))}
+                </div>
+                <div className="text-sm text-muted-foreground">Melhor Dia</div>
+                <div className="text-xs text-muted-foreground mt-1">
+                  {dailyLeadsData.find(d => d.leads === Math.max(...dailyLeadsData.map(d => d.leads)))?.fullDate}
+                </div>
+              </div>
+
+              <div className="text-center">
+                <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">
+                  {Math.round(dailyLeadsData.slice(-7).reduce((sum, day) => sum + day.leads, 0) / 7)}
+                </div>
+                <div className="text-sm text-muted-foreground">Média Últimos 7 Dias</div>
+                <div className="text-xs text-muted-foreground mt-1">
+                  {dailyLeadsData.slice(-7).reduce((sum, day) => sum + day.leads, 0)} leads na semana
+                </div>
+              </div>
+
+              <div className="text-center">
+                <div className="text-2xl font-bold text-purple-600 dark:text-purple-400">
+                  {dailyLeadsData[dailyLeadsData.length - 1]?.leads || 0}
+                </div>
+                <div className="text-sm text-muted-foreground">Hoje</div>
+                <div className="text-xs text-muted-foreground mt-1">
+                  {((dailyLeadsData[dailyLeadsData.length - 1]?.leads || 0) > (dailyLeadsData[dailyLeadsData.length - 2]?.leads || 0)) ? '📈' : '📉'}
+                  {' '}vs ontem ({dailyLeadsData[dailyLeadsData.length - 2]?.leads || 0})
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
         <Tabs defaultValue="sources" className="space-y-6">
           <TabsList className="grid w-full grid-cols-5">
             <TabsTrigger value="sources">Fontes & Origens</TabsTrigger>
