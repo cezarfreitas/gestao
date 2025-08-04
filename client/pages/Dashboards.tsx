@@ -209,6 +209,19 @@ export default function Dashboards() {
               </nav>
             </div>
             <div className="flex items-center space-x-2">
+              <Select value={selectedSite} onValueChange={setSelectedSite}>
+                <SelectTrigger className="w-[200px]">
+                  <SelectValue placeholder="Selecionar Site" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">Todos os Sites</SelectItem>
+                  {mockSites.map((site) => (
+                    <SelectItem key={site.url} value={site.url}>
+                      {site.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
               <Button variant="outline" size="sm">
                 <Download className="w-4 h-4 mr-2" />
                 Exportar
