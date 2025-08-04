@@ -33,7 +33,7 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install only production dependencies
-RUN npm ci --only=production && npm cache clean --force
+RUN npm ci --omit=dev --legacy-peer-deps && npm cache clean --force
 
 # Copy built application from builder stage
 COPY --from=builder --chown=nodejs:nodejs /app/dist ./dist
