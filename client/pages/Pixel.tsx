@@ -58,7 +58,7 @@ const generatePixelCode = (pixelId: string, siteName: string) => {
   };
   
   function trackEvent(eventType, data) {
-    fetch('https://api.ecko.com.br/pixel/track', {
+    fetch('/api/pixel/track', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
