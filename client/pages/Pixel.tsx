@@ -483,9 +483,19 @@ export default function Pixel() {
                 <div>
                   <h3 className="text-lg font-semibold mb-2">4. Monitoramento</h3>
                   <p className="text-muted-foreground">
-                    Acompanhe o desempenho do seu pixel na aba "Analytics" e veja 
+                    Acompanhe o desempenho do seu pixel na aba "Analytics" e veja
                     dados detalhados de conversões e engajamento.
                   </p>
+                </div>
+
+                <div>
+                  <h3 className="text-lg font-semibold mb-2">5. Informações Técnicas</h3>
+                  <ul className="list-disc list-inside text-muted-foreground space-y-1">
+                    <li>Sistema hospedado em: <code className="bg-muted px-1 rounded">ntk.idenegociosdigitais.com.br</code></li>
+                    <li>Endpoint de tracking: <code className="bg-muted px-1 rounded">/api/pixel/track</code></li>
+                    <li>Dados enviados via HTTPS para garantir segurança</li>
+                    <li>Compatível com todos os navegadores modernos</li>
+                  </ul>
                 </div>
               </CardContent>
             </Card>
