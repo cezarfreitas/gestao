@@ -170,6 +170,7 @@ const formatTime = (seconds: number) => {
 export default function Dashboards() {
   const [stats, setStats] = useState<LeadStatsResponse>(mockStats);
   const [selectedTimeRange, setSelectedTimeRange] = useState("7d");
+  const [selectedSite, setSelectedSite] = useState("all");
 
   return (
     <div className="min-h-screen bg-background">
