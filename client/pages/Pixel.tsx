@@ -530,7 +530,7 @@ export default function Pixel() {
         {/* Pixel Code Dialog */}
         {selectedPixel && (
           <Dialog open={!!selectedPixel} onOpenChange={() => setSelectedPixel(null)}>
-            <DialogContent className="max-w-4xl">
+            <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
               <DialogHeader>
                 <DialogTitle>Código do Pixel: {selectedPixel.name}</DialogTitle>
               </DialogHeader>
