@@ -416,32 +416,32 @@ export default function Dashboards() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6 pt-6 border-t">
               <div className="text-center">
                 <div className="text-2xl font-bold text-green-600 dark:text-green-400">
-                  {Math.max(...dailyLeadsData.map(d => d.leads))}
+                  {Math.max(...dailyLeadsData.map(d => d.total))}
                 </div>
                 <div className="text-sm text-muted-foreground">Melhor Dia</div>
                 <div className="text-xs text-muted-foreground mt-1">
-                  {dailyLeadsData.find(d => d.leads === Math.max(...dailyLeadsData.map(d => d.leads)))?.fullDate}
+                  {dailyLeadsData.find(d => d.total === Math.max(...dailyLeadsData.map(d => d.total)))?.fullDate}
                 </div>
               </div>
 
               <div className="text-center">
                 <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">
-                  {Math.round(dailyLeadsData.slice(-7).reduce((sum, day) => sum + day.leads, 0) / 7)}
+                  {Math.round(dailyLeadsData.slice(-7).reduce((sum, day) => sum + day.total, 0) / 7)}
                 </div>
                 <div className="text-sm text-muted-foreground">Média Últimos 7 Dias</div>
                 <div className="text-xs text-muted-foreground mt-1">
-                  {dailyLeadsData.slice(-7).reduce((sum, day) => sum + day.leads, 0)} leads na semana
+                  {dailyLeadsData.slice(-7).reduce((sum, day) => sum + day.total, 0)} leads na semana
                 </div>
               </div>
 
               <div className="text-center">
                 <div className="text-2xl font-bold text-purple-600 dark:text-purple-400">
-                  {dailyLeadsData[dailyLeadsData.length - 1]?.leads || 0}
+                  {dailyLeadsData[dailyLeadsData.length - 1]?.total || 0}
                 </div>
                 <div className="text-sm text-muted-foreground">Hoje</div>
                 <div className="text-xs text-muted-foreground mt-1">
-                  {((dailyLeadsData[dailyLeadsData.length - 1]?.leads || 0) > (dailyLeadsData[dailyLeadsData.length - 2]?.leads || 0)) ? '📈' : '📉'}
-                  {' '}vs ontem ({dailyLeadsData[dailyLeadsData.length - 2]?.leads || 0})
+                  {((dailyLeadsData[dailyLeadsData.length - 1]?.total || 0) > (dailyLeadsData[dailyLeadsData.length - 2]?.total || 0)) ? '📈' : '📉'}
+                  {' '}vs ontem ({dailyLeadsData[dailyLeadsData.length - 2]?.total || 0})
                 </div>
               </div>
             </div>
