@@ -350,9 +350,9 @@ export default function Dashboards() {
                 <span>Entrada de Leads - Últimos 30 Dias</span>
               </CardTitle>
               <div className="flex items-center space-x-2 text-sm text-muted-foreground">
-                <span>Total: {dailyLeadsData.reduce((sum, day) => sum + day.leads, 0)} leads</span>
+                <span>Total: {dailyLeadsData.reduce((sum, day) => sum + day.total, 0)} leads</span>
                 <span>•</span>
-                <span>Média: {Math.round(dailyLeadsData.reduce((sum, day) => sum + day.leads, 0) / dailyLeadsData.length)} leads/dia</span>
+                <span>Média: {Math.round(dailyLeadsData.reduce((sum, day) => sum + day.total, 0) / dailyLeadsData.length)} leads/dia</span>
               </div>
             </div>
           </CardHeader>
