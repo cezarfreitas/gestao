@@ -202,6 +202,17 @@ const generateDailyLeadsData = () => {
 
 const dailyLeadsData = generateDailyLeadsData();
 
+// Color palette for different sites
+const siteColors = {
+  'Ecko Streetwear': '#2563eb', // Blue
+  'Ecko Kids': '#dc2626', // Red
+  'Ecko Feminino': '#c026d3', // Magenta
+  'Ecko Outlet': '#ea580c', // Orange
+  'Ecko Pro': '#16a34a', // Green
+  'Ecko Accessories': '#7c3aed', // Purple
+  'Ecko Limited': '#0891b2' // Cyan
+};
+
 const formatTime = (seconds: number) => {
   const minutes = Math.floor(seconds / 60);
   return `${minutes}m ${seconds % 60}s`;
