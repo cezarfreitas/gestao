@@ -65,7 +65,7 @@ const createTablesSQL = {
       lead_id VARCHAR(36) NOT NULL,
       session_start_time DATETIME,
       time_on_site INT,
-      current_timestamp DATETIME,
+      interaction_timestamp DATETIME,
       session_id VARCHAR(100),
       page_views INT,
       scroll_depth INT,
