@@ -13,6 +13,7 @@ Sistema completo de gestão de leads com dashboard analytics e pixel tracking.
 ### 1. Deploy com Docker (Recomendado)
 
 #### Build e Run Manual
+
 ```bash
 # Build da imagem
 docker build -t ecko-leads-system:latest .
@@ -32,6 +33,7 @@ docker run -d \
 ```
 
 #### Com Docker Compose
+
 ```bash
 # Start do serviço
 docker-compose up -d
@@ -44,6 +46,7 @@ docker-compose up --build -d
 ```
 
 #### Script de Deploy Automatizado
+
 ```bash
 # Fazer o script executável
 chmod +x deploy.sh
@@ -88,12 +91,15 @@ npm run start:prod
 **Domínio de Produção:** `ntk.idenegociosdigitais.com.br`
 
 ### Configuração DNS
+
 Aponte o domínio para o servidor onde a aplicação está rodando:
+
 ```
 ntk.idenegociosdigitais.com.br -> IP_DO_SERVIDOR:8080
 ```
 
 ### SSL/HTTPS
+
 - Configure SSL/TLS no proxy reverso (Nginx/Apache)
 - Use Let's Encrypt para certificados gratuitos
 - Ou configure o Ingress Controller no Kubernetes
@@ -101,12 +107,14 @@ ntk.idenegociosdigitais.com.br -> IP_DO_SERVIDOR:8080
 ## 📊 Banco de Dados
 
 ### Configuração Atual
+
 - **Host:** 148.230.78.129:3459
 - **Database:** leads
 - **User:** leads
 - **Tabelas:** Criadas automaticamente na inicialização
 
 ### Inicialização Manual do Banco
+
 ```bash
 # Entrar no container
 docker exec -it ecko-leads-app bash
@@ -120,6 +128,7 @@ npx tsx scripts/setup-database.ts seed
 ## 🔍 Monitoramento
 
 ### Health Check
+
 ```bash
 # Verificar API
 curl http://localhost:8080/api/ping
@@ -130,6 +139,7 @@ docker logs ecko-leads-app
 ```
 
 ### Endpoints Importantes
+
 - **Health Check:** `/api/ping`
 - **Leads API:** `/api/leads`
 - **Pixel Tracking:** `/api/pixel/track`
@@ -140,6 +150,7 @@ docker logs ecko-leads-app
 ## 🔧 Variáveis de Ambiente
 
 ### Produção
+
 ```env
 NODE_ENV=production
 PORT=8080
@@ -152,6 +163,7 @@ API_BASE_URL=https://ntk.idenegociosdigitais.com.br
 ```
 
 ### Desenvolvimento
+
 ```env
 NODE_ENV=development
 PORT=8080
@@ -166,12 +178,14 @@ API_BASE_URL=http://localhost:8080
 ## 📈 Performance
 
 ### Recursos Recomendados
+
 - **CPU:** 1-2 cores
 - **RAM:** 512MB - 1GB
 - **Storage:** 5GB
 - **Network:** 1Gbps
 
 ### Otimizações
+
 - Container multi-stage build
 - Dependências de produção apenas
 - Health checks configurados
@@ -181,6 +195,7 @@ API_BASE_URL=http://localhost:8080
 ## 🛡️ Segurança
 
 ### Configurações Aplicadas
+
 - Container não-root user
 - Health checks
 - Rate limiting (configurável)
@@ -188,6 +203,7 @@ API_BASE_URL=http://localhost:8080
 - HTTPS recomendado
 
 ### Recomendações Adicionais
+
 - Firewall configurado
 - SSL/TLS certificates
 - Backup do banco de dados
@@ -196,6 +212,7 @@ API_BASE_URL=http://localhost:8080
 ## 🚨 Troubleshooting
 
 ### Container não inicia
+
 ```bash
 # Verificar logs
 docker logs ecko-leads-app
@@ -208,6 +225,7 @@ docker restart ecko-leads-app
 ```
 
 ### Banco de dados não conecta
+
 ```bash
 # Testar conexão manual
 docker exec -it ecko-leads-app npx tsx server/scripts/test-connection.ts
@@ -217,6 +235,7 @@ docker exec -it ecko-leads-app env | grep DB_
 ```
 
 ### API não responde
+
 ```bash
 # Verificar health check
 curl -f http://localhost:8080/api/ping
@@ -228,6 +247,7 @@ docker logs -f ecko-leads-app
 ## 📞 Suporte
 
 Para problemas de deploy ou configuração:
+
 1. Verificar logs do container
 2. Testar conexão com banco de dados
 3. Validar variáveis de ambiente
