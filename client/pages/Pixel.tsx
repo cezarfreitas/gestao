@@ -512,7 +512,14 @@ export default function Pixel() {
                       variant="outline"
                       onClick={() => copyToClipboard(generatePixelCode(selectedPixel.code, selectedPixel.site))}
                     >
-                      <Copy className="w-4 h-4" />
+                      {copied ? (
+                        <>
+                          <CheckCircle className="w-4 h-4 text-green-600" />
+                          <span className="ml-1 text-xs">Copiado!</span>
+                        </>
+                      ) : (
+                        <Copy className="w-4 h-4" />
+                      )}
                     </Button>
                   </div>
                 </div>
