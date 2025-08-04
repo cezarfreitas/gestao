@@ -2,7 +2,7 @@ import mysql from 'mysql2/promise';
 
 // Database configuration
 const dbConfig = {
-  host: 'server.idenegociosdigitais.com.br',
+  host: '148.230.78.129',
   port: 3459,
   user: 'leads',
   password: 'e35dc30e2cfa66364f67',
