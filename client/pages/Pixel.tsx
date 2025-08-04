@@ -463,7 +463,7 @@ export default function Pixel() {
                 <div>
                   <h3 className="text-lg font-semibold mb-2">2. Instalando o Código</h3>
                   <p className="text-muted-foreground">
-                    Copie o código gerado e cole no &lt;head&gt; de todas as p����ginas do seu site 
+                    Copie o código gerado e cole no &lt;head&gt; de todas as p��ginas do seu site 
                     que você deseja rastrear.
                   </p>
                 </div>
@@ -501,7 +501,7 @@ export default function Pixel() {
                 <div>
                   <Label>Código para Instalação</Label>
                   <div className="relative">
-                    <pre className="bg-muted p-4 rounded-lg text-sm overflow-x-auto">
+                    <pre className="bg-muted p-4 rounded-lg text-xs overflow-x-auto max-h-64 border font-mono whitespace-pre-wrap break-all">
                       <code>{generatePixelCode(selectedPixel.code, selectedPixel.site)}</code>
                     </pre>
                     <Button
