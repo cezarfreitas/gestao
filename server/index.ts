@@ -1,7 +1,7 @@
 import "dotenv/config";
 import express from "express";
 import cors from "cors";
-import { initializeDatabase, insertSampleData } from "./database/init.js";
+import { checkDatabaseAvailability, addDatabaseStatus } from "./database/manager.js";
 import { handleDemo } from "./routes/demo";
 import {
   getLeads,
