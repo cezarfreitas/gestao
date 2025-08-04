@@ -166,7 +166,8 @@ export default function Pixel() {
 
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
-    // You could add a toast notification here
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
   };
 
   return (
