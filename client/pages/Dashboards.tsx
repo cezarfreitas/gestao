@@ -567,6 +567,157 @@ export default function Dashboards() {
               </CardContent>
             </Card>
           </TabsContent>
+
+          {/* Sites Tab */}
+          <TabsContent value="sites" className="space-y-6">
+            {/* Site Overview Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+              {mockSites.map((site) => (
+                <Card key={site.url} className={`${selectedSite === site.url ? 'ring-2 ring-primary' : ''}`}>
+                  <CardHeader className="pb-3">
+                    <div className="flex items-center justify-between">
+                      <CardTitle className="text-sm font-medium">{site.name}</CardTitle>
+                      <Badge variant={site.status === 'active' ? 'default' : 'secondary'}>
+                        {site.status}
+                      </Badge>
+                    </div>
+                    <p className="text-xs text-muted-foreground truncate">{site.title}</p>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-2">
+                      <div className="flex justify-between">
+                        <span className="text-sm text-muted-foreground">Leads</span>
+                        <span className="text-sm font-medium">{site.leads}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-sm text-muted-foreground">Conversão</span>
+                        <span className="text-sm font-medium">{site.conversion}%</span>
+                      </div>
+                      <div className="mt-3">
+                        <Progress value={(site.leads / 1000) * 100} className="h-2" />
+                        <p className="text-xs text-muted-foreground mt-1">
+                          {((site.leads / mockSites.reduce((sum, s) => sum + s.leads, 0)) * 100).toFixed(1)}% do total
+                        </p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+
+            {/* Site Performance Comparison */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center space-x-2">
+                    <TrendingUp className="w-5 h-5" />
+                    <span>Performance por Site</span>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  {mockSites
+                    .sort((a, b) => b.leads - a.leads)
+                    .map((site, index) => (
+                      <div key={site.url} className="space-y-2">
+                        <div className="flex justify-between items-center">
+                          <div className="flex items-center space-x-2">
+                            <Badge variant="outline" className="w-6 h-6 p-0 flex items-center justify-center text-xs">
+                              {index + 1}
+                            </Badge>
+                            <span className="text-sm font-medium">{site.name}</span>
+                          </div>
+                          <div className="text-right">
+                            <div className="text-sm font-medium">{site.leads} leads</div>
+                            <div className="text-xs text-muted-foreground">{site.conversion}% conv.</div>
+                          </div>
+                        </div>
+                        <Progress value={(site.leads / Math.max(...mockSites.map(s => s.leads))) * 100} className="h-2" />
+                      </div>
+                    ))}
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center space-x-2">
+                    <Target className="w-5 h-5" />
+                    <span>Taxa de Conversão</span>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  {mockSites
+                    .sort((a, b) => b.conversion - a.conversion)
+                    .map((site, index) => (
+                      <div key={site.url} className="space-y-2">
+                        <div className="flex justify-between items-center">
+                          <div className="flex items-center space-x-2">
+                            <Badge variant="outline" className="w-6 h-6 p-0 flex items-center justify-center text-xs">
+                              {index + 1}
+                            </Badge>
+                            <span className="text-sm font-medium">{site.name}</span>
+                          </div>
+                          <div className="text-right">
+                            <div className="text-sm font-medium">{site.conversion}%</div>
+                            <div className="text-xs text-muted-foreground">{site.leads} leads</div>
+                          </div>
+                        </div>
+                        <Progress value={(site.conversion / Math.max(...mockSites.map(s => s.conversion))) * 100} className="h-2" />
+                      </div>
+                    ))}
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Site URLs and Status */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center space-x-2">
+                  <Globe className="w-5 h-5" />
+                  <span>URLs e Status dos Sites</span>
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm">
+                    <thead>
+                      <tr className="border-b">
+                        <th className="text-left py-2">Site</th>
+                        <th className="text-left py-2">URL</th>
+                        <th className="text-left py-2">Status</th>
+                        <th className="text-right py-2">Leads</th>
+                        <th className="text-right py-2">Conversão</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {mockSites.map((site) => (
+                        <tr key={site.url} className="border-b">
+                          <td className="py-3 font-medium">{site.name}</td>
+                          <td className="py-3">
+                            <a
+                              href={site.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-primary hover:underline flex items-center"
+                            >
+                              {site.url}
+                              <ExternalLink className="w-3 h-3 ml-1" />
+                            </a>
+                          </td>
+                          <td className="py-3">
+                            <Badge variant={site.status === 'active' ? 'default' : 'secondary'}>
+                              {site.status}
+                            </Badge>
+                          </td>
+                          <td className="py-3 text-right font-medium">{site.leads}</td>
+                          <td className="py-3 text-right">{site.conversion}%</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
         </Tabs>
       </div>
     </div>
