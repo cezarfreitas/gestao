@@ -104,6 +104,7 @@ export default function Pixel() {
     description: "",
     site: ""
   });
+  const [copied, setCopied] = useState(false);
 
   // Fetch pixels from database
   const fetchPixels = async () => {
