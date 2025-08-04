@@ -27,5 +27,13 @@ export function createServer() {
 
   app.get("/api/demo", handleDemo);
 
+  // Lead management API routes
+  app.get("/api/leads", getLeads);
+  app.get("/api/leads/stats", getLeadStats);
+  app.get("/api/leads/:id", getLeadById);
+  app.post("/api/leads", createLead);
+  app.put("/api/leads/:id", updateLead);
+  app.delete("/api/leads/:id", deleteLead);
+
   return app;
 }
