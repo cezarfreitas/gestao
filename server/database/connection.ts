@@ -16,15 +16,20 @@ const dbConfig = {
 // Create connection pool
 export const pool = mysql.createPool(dbConfig);
 
-// Test database connection
-export const testConnection = async () => {
+// Test database connection with timeout
+export const testConnection = async (timeoutMs = 10000) => {
   try {
-    const connection = await pool.getConnection();
-    console.log('✅ Database connected successfully');
+    const connectionPromise = pool.getConnection();
+    const timeoutPromise = new Promise((_, reject) =>
+      setTimeout(() => reject(new Error('Connection timeout')), timeoutMs)
+    );
+
+    const connection = await Promise.race([connectionPromise, timeoutPromise]) as any;
+    console.log('✅ Database connected successfully to:', dbConfig.host);
     connection.release();
     return true;
   } catch (error) {
-    console.error('❌ Database connection failed:', error);
+    console.error('❌ Database connection failed:', error instanceof Error ? error.message : error);
     return false;
   }
 };
