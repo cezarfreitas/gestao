@@ -293,6 +293,10 @@ export default function Pixel() {
                   </div>
                 </DialogContent>
               </Dialog>
+              <Button variant="outline" size="sm" onClick={fetchPixels} disabled={loading}>
+                <RefreshCw className={`w-4 h-4 mr-2 ${loading ? 'animate-spin' : ''}`} />
+                Atualizar
+              </Button>
               <Button variant="outline" size="sm">
                 <Download className="w-4 h-4 mr-2" />
                 Exportar
