@@ -14,9 +14,15 @@ echo "🚀 Deploying Ecko Streetwear Lead Management System"
 echo "Environment: $ENVIRONMENT"
 echo "======================================="
 
-# Build the Docker image
+# Build the Docker image using optimized Dockerfile
 echo "📦 Building Docker image..."
-docker build -t $IMAGE_NAME:$IMAGE_TAG .
+if [ -f "Dockerfile.optimized" ]; then
+  echo "Using optimized Dockerfile..."
+  docker build -f Dockerfile.optimized -t $IMAGE_NAME:$IMAGE_TAG .
+else
+  echo "Using standard Dockerfile..."
+  docker build -t $IMAGE_NAME:$IMAGE_TAG .
+fi
 
 # Stop and remove existing container if running
 echo "🛑 Stopping existing container..."
