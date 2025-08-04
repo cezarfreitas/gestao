@@ -1,26 +1,26 @@
-import { testConnection } from './connection.js';
-import { mockLeads, mockStats, mockPixels } from './fallback.js';
+import { testConnection } from "./connection.js";
+import { mockLeads, mockStats, mockPixels } from "./fallback.js";
 
 // Global flag to track database availability
 let isDatabaseAvailable = false;
 
 // Test database availability on startup
 export const checkDatabaseAvailability = async () => {
-  console.log('🔍 Checking database availability...');
-  
+  console.log("🔍 Checking database availability...");
+
   try {
     isDatabaseAvailable = await testConnection(5000); // 5 second timeout
-    
+
     if (isDatabaseAvailable) {
-      console.log('✅ Database is available - using MySQL');
+      console.log("✅ Database is available - using MySQL");
     } else {
-      console.log('⚠️  Database unavailable - using mock data fallback');
+      console.log("⚠️  Database unavailable - using mock data fallback");
     }
   } catch (error) {
-    console.log('⚠️  Database connection failed - using mock data fallback');
+    console.log("⚠️  Database connection failed - using mock data fallback");
     isDatabaseAvailable = false;
   }
-  
+
   return isDatabaseAvailable;
 };
 
@@ -28,7 +28,7 @@ export const checkDatabaseAvailability = async () => {
 export const getDatabaseStatus = () => {
   return {
     available: isDatabaseAvailable,
-    mode: isDatabaseAvailable ? 'database' : 'mock'
+    mode: isDatabaseAvailable ? "database" : "mock",
   };
 };
 

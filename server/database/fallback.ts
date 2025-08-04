@@ -8,14 +8,14 @@ export const mockLeads: Lead[] = [
     site: {
       title: "Ecko Streetwear - Seja um Lojista Oficial",
       name: "Ecko Streetwear",
-      url: "https://ecko.com.br"
+      url: "https://ecko.com.br",
     },
     data: {
       nome: "João Silva",
       whatsapp: "(11) 99999-9999",
       cnpj: "sim",
       tipoLoja: "fisica-ecommerce",
-      cep: "01000-000"
+      cep: "01000-000",
     },
     origin: "hero_cta",
     timestamp: "2024-01-15T10:30:00.000Z",
@@ -35,7 +35,7 @@ export const mockLeads: Lead[] = [
       url: "https://exemplo.com.br",
       pathname: "/",
       search: "?utm_source=google",
-      hash: ""
+      hash: "",
     },
     interaction: {
       sessionStartTime: "2024-01-15T10:25:00.000Z",
@@ -45,8 +45,8 @@ export const mockLeads: Lead[] = [
       pageViews: 3,
       scrollDepth: 75,
       touchDevice: false,
-      connectionType: "4g"
-    }
+      connectionType: "4g",
+    },
   },
   {
     id: "lead_002",
@@ -54,14 +54,14 @@ export const mockLeads: Lead[] = [
     site: {
       title: "Ecko Streetwear - Seja um Lojista Oficial",
       name: "Ecko Streetwear",
-      url: "https://ecko.com.br"
+      url: "https://ecko.com.br",
     },
     data: {
       nome: "Maria Santos",
       whatsapp: "(21) 88888-8888",
       cnpj: "sim",
       tipoLoja: "fisica",
-      cep: "20000-000"
+      cep: "20000-000",
     },
     origin: "footer_form",
     timestamp: "2024-01-15T09:15:00.000Z",
@@ -81,7 +81,7 @@ export const mockLeads: Lead[] = [
       url: "https://exemplo.com.br",
       pathname: "/lojistas",
       search: "?utm_source=instagram",
-      hash: ""
+      hash: "",
     },
     interaction: {
       sessionStartTime: "2024-01-15T09:10:00.000Z",
@@ -91,9 +91,9 @@ export const mockLeads: Lead[] = [
       pageViews: 5,
       scrollDepth: 90,
       touchDevice: true,
-      connectionType: "wifi"
-    }
-  }
+      connectionType: "wifi",
+    },
+  },
 ];
 
 export const mockStats: LeadStatsResponse = {
@@ -108,13 +108,13 @@ export const mockStats: LeadStatsResponse = {
     website: 678,
     social: 234,
     referral: 189,
-    direct: 146
+    direct: 146,
   },
   leadsByType: {
-    "form_with_cnpj": 892,
-    "newsletter": 234,
-    "contact": 121
-  }
+    form_with_cnpj: 892,
+    newsletter: 234,
+    contact: 121,
+  },
 };
 
 export const mockPixels = [
@@ -130,7 +130,7 @@ export const mockPixels = [
     totalHits: 15420,
     uniqueVisitors: 8930,
     conversions: 234,
-    conversionRate: 2.62
+    conversionRate: 2.62,
   },
   {
     id: "px_002",
@@ -144,6 +144,6 @@ export const mockPixels = [
     totalHits: 8760,
     uniqueVisitors: 5240,
     conversions: 156,
-    conversionRate: 2.98
-  }
+    conversionRate: 2.98,
+  },
 ];

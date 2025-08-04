@@ -4,14 +4,26 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { 
-  Users, 
-  TrendingUp, 
+import {
+  Users,
+  TrendingUp,
   Code,
   Eye,
   Activity,
@@ -27,7 +39,7 @@ import {
   ExternalLink,
   CheckCircle,
   AlertCircle,
-  Clock
+  Clock,
 } from "lucide-react";
 
 interface Pixel {
@@ -35,7 +47,7 @@ interface Pixel {
   name: string;
   description: string;
   code: string;
-  status: 'active' | 'inactive' | 'testing';
+  status: "active" | "inactive" | "testing";
   site: string;
   createdAt: string;
   lastHit: string;
@@ -77,20 +89,24 @@ t('cta_click',{element:e.target.tagName,text:e.target.textContent||e.target.valu
 
 const getStatusColor = (status: string) => {
   switch (status) {
-    case "active": return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200";
-    case "inactive": return "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200";
-    case "testing": return "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200";
-    default: return "bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200";
+    case "active":
+      return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200";
+    case "inactive":
+      return "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200";
+    case "testing":
+      return "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200";
+    default:
+      return "bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200";
   }
 };
 
 const formatDate = (dateString: string) => {
-  return new Date(dateString).toLocaleDateString('pt-BR', {
-    day: '2-digit',
-    month: '2-digit',
-    year: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit'
+  return new Date(dateString).toLocaleDateString("pt-BR", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
   });
 };
 
@@ -102,7 +118,7 @@ export default function Pixel() {
   const [newPixel, setNewPixel] = useState({
     name: "",
     description: "",
-    site: ""
+    site: "",
   });
   const [copied, setCopied] = useState(false);
 
@@ -110,15 +126,15 @@ export default function Pixel() {
   const fetchPixels = async () => {
     try {
       setLoading(true);
-      const response = await fetch('/api/pixels');
+      const response = await fetch("/api/pixels");
       if (response.ok) {
         const data = await response.json();
         setPixels(data);
       } else {
-        console.error('Failed to fetch pixels');
+        console.error("Failed to fetch pixels");
       }
     } catch (error) {
-      console.error('Error fetching pixels:', error);
+      console.error("Error fetching pixels:", error);
     } finally {
       setLoading(false);
     }
@@ -130,25 +146,34 @@ export default function Pixel() {
   }, []);
 
   const totalHits = pixels.reduce((sum, pixel) => sum + pixel.totalHits, 0);
-  const totalVisitors = pixels.reduce((sum, pixel) => sum + pixel.uniqueVisitors, 0);
-  const totalConversions = pixels.reduce((sum, pixel) => sum + pixel.conversions, 0);
-  const avgConversionRate = pixels.length > 0 ? 
-    pixels.reduce((sum, pixel) => sum + pixel.conversionRate, 0) / pixels.length : 0;
+  const totalVisitors = pixels.reduce(
+    (sum, pixel) => sum + pixel.uniqueVisitors,
+    0,
+  );
+  const totalConversions = pixels.reduce(
+    (sum, pixel) => sum + pixel.conversions,
+    0,
+  );
+  const avgConversionRate =
+    pixels.length > 0
+      ? pixels.reduce((sum, pixel) => sum + pixel.conversionRate, 0) /
+        pixels.length
+      : 0;
 
   const handleCreatePixel = async () => {
     if (!newPixel.name || !newPixel.site) return;
 
     try {
-      const response = await fetch('/api/pixels', {
-        method: 'POST',
+      const response = await fetch("/api/pixels", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           name: newPixel.name,
           description: newPixel.description,
-          site: newPixel.site
-        })
+          site: newPixel.site,
+        }),
       });
 
       if (response.ok) {
@@ -157,10 +182,10 @@ export default function Pixel() {
         setNewPixel({ name: "", description: "", site: "" });
         setShowCreateDialog(false);
       } else {
-        console.error('Failed to create pixel');
+        console.error("Failed to create pixel");
       }
     } catch (error) {
-      console.error('Error creating pixel:', error);
+      console.error("Error creating pixel:", error);
     }
   };
 
@@ -179,32 +204,38 @@ export default function Pixel() {
             <div className="flex items-center space-x-6">
               <div className="flex items-center space-x-4">
                 <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-                  <span className="text-primary-foreground font-bold text-lg">E</span>
+                  <span className="text-primary-foreground font-bold text-lg">
+                    E
+                  </span>
                 </div>
                 <div>
-                  <h1 className="text-2xl font-bold text-foreground">Ecko Streetwear</h1>
-                  <p className="text-sm text-muted-foreground">Sistema de Gestão de Leads</p>
+                  <h1 className="text-2xl font-bold text-foreground">
+                    Ecko Streetwear
+                  </h1>
+                  <p className="text-sm text-muted-foreground">
+                    Sistema de Gestão de Leads
+                  </p>
                 </div>
               </div>
-              
+
               {/* Navigation Menu */}
               <nav className="hidden md:flex items-center space-x-6">
-                <Link 
-                  to="/" 
+                <Link
+                  to="/"
                   className="flex items-center space-x-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
                 >
                   <Users className="w-4 h-4" />
                   <span>Leads</span>
                 </Link>
-                <Link 
-                  to="/dashboards" 
+                <Link
+                  to="/dashboards"
                   className="flex items-center space-x-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
                 >
                   <BarChart3 className="w-4 h-4" />
                   <span>Análises</span>
                 </Link>
-                <Link 
-                  to="/pixel" 
+                <Link
+                  to="/pixel"
                   className="flex items-center space-x-2 text-sm font-medium text-foreground hover:text-primary transition-colors"
                 >
                   <Code className="w-4 h-4" />
@@ -213,7 +244,10 @@ export default function Pixel() {
               </nav>
             </div>
             <div className="flex items-center space-x-2">
-              <Dialog open={showCreateDialog} onOpenChange={setShowCreateDialog}>
+              <Dialog
+                open={showCreateDialog}
+                onOpenChange={setShowCreateDialog}
+              >
                 <DialogTrigger asChild>
                   <Button size="sm">
                     <Plus className="w-4 h-4 mr-2" />
@@ -230,7 +264,9 @@ export default function Pixel() {
                       <Input
                         id="name"
                         value={newPixel.name}
-                        onChange={(e) => setNewPixel({...newPixel, name: e.target.value})}
+                        onChange={(e) =>
+                          setNewPixel({ ...newPixel, name: e.target.value })
+                        }
                         placeholder="Ex: Ecko Homepage - Campanha Black Friday"
                       />
                     </div>
@@ -239,7 +275,9 @@ export default function Pixel() {
                       <Input
                         id="site"
                         value={newPixel.site}
-                        onChange={(e) => setNewPixel({...newPixel, site: e.target.value})}
+                        onChange={(e) =>
+                          setNewPixel({ ...newPixel, site: e.target.value })
+                        }
                         placeholder="https://exemplo.com.br"
                       />
                     </div>
@@ -248,7 +286,12 @@ export default function Pixel() {
                       <Textarea
                         id="description"
                         value={newPixel.description}
-                        onChange={(e) => setNewPixel({...newPixel, description: e.target.value})}
+                        onChange={(e) =>
+                          setNewPixel({
+                            ...newPixel,
+                            description: e.target.value,
+                          })
+                        }
                         placeholder="Descrição do uso deste pixel..."
                       />
                     </div>
@@ -258,8 +301,15 @@ export default function Pixel() {
                   </div>
                 </DialogContent>
               </Dialog>
-              <Button variant="outline" size="sm" onClick={fetchPixels} disabled={loading}>
-                <RefreshCw className={`w-4 h-4 mr-2 ${loading ? 'animate-spin' : ''}`} />
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={fetchPixels}
+                disabled={loading}
+              >
+                <RefreshCw
+                  className={`w-4 h-4 mr-2 ${loading ? "animate-spin" : ""}`}
+                />
                 Atualizar
               </Button>
               <Button variant="outline" size="sm">
@@ -276,11 +326,15 @@ export default function Pixel() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total de Hits</CardTitle>
+              <CardTitle className="text-sm font-medium">
+                Total de Hits
+              </CardTitle>
               <Activity className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{totalHits.toLocaleString()}</div>
+              <div className="text-2xl font-bold">
+                {totalHits.toLocaleString()}
+              </div>
               <p className="text-xs text-muted-foreground">
                 {totalVisitors.toLocaleString()} visitantes únicos
               </p>
@@ -289,12 +343,14 @@ export default function Pixel() {
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Pixels Ativos</CardTitle>
+              <CardTitle className="text-sm font-medium">
+                Pixels Ativos
+              </CardTitle>
               <CheckCircle className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">
-                {pixels.filter(p => p.status === 'active').length}
+                {pixels.filter((p) => p.status === "active").length}
               </div>
               <p className="text-xs text-muted-foreground">
                 {pixels.length} pixels totais
@@ -322,7 +378,10 @@ export default function Pixel() {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">
-                {totalVisitors > 0 ? ((totalHits / totalVisitors) * 100).toFixed(1) : 0}%
+                {totalVisitors > 0
+                  ? ((totalHits / totalVisitors) * 100).toFixed(1)
+                  : 0}
+                %
               </div>
               <p className="text-xs text-muted-foreground">
                 Taxa de engajamento
@@ -343,78 +402,105 @@ export default function Pixel() {
             {loading ? (
               <div className="flex items-center justify-center py-8">
                 <div className="animate-spin w-8 h-8 border-2 border-primary border-t-transparent rounded-full"></div>
-                <span className="ml-3 text-muted-foreground">Carregando pixels...</span>
+                <span className="ml-3 text-muted-foreground">
+                  Carregando pixels...
+                </span>
               </div>
             ) : pixels.length === 0 ? (
               <div className="text-center py-8">
-                <p className="text-muted-foreground mb-4">Nenhum pixel encontrado</p>
-                <p className="text-sm text-muted-foreground">Clique em "Novo Pixel" para criar seu primeiro pixel de tracking</p>
+                <p className="text-muted-foreground mb-4">
+                  Nenhum pixel encontrado
+                </p>
+                <p className="text-sm text-muted-foreground">
+                  Clique em "Novo Pixel" para criar seu primeiro pixel de
+                  tracking
+                </p>
               </div>
             ) : (
               <div className="grid gap-6">
                 {pixels.map((pixel) => (
-                <Card key={pixel.id}>
-                  <CardHeader>
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center space-x-4">
-                        <div>
-                          <CardTitle className="text-lg">{pixel.name}</CardTitle>
-                          <p className="text-sm text-muted-foreground">{pixel.description}</p>
+                  <Card key={pixel.id}>
+                    <CardHeader>
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center space-x-4">
+                          <div>
+                            <CardTitle className="text-lg">
+                              {pixel.name}
+                            </CardTitle>
+                            <p className="text-sm text-muted-foreground">
+                              {pixel.description}
+                            </p>
+                          </div>
+                          <Badge className={getStatusColor(pixel.status)}>
+                            {pixel.status}
+                          </Badge>
                         </div>
-                        <Badge className={getStatusColor(pixel.status)}>
-                          {pixel.status}
-                        </Badge>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <Button 
-                          variant="outline" 
-                          size="sm"
-                          onClick={() => setSelectedPixel(pixel)}
-                        >
-                          <Code className="w-4 h-4 mr-2" />
-                          Ver Código
-                        </Button>
-                        <Button variant="outline" size="sm">
-                          <Edit className="w-4 h-4" />
-                        </Button>
-                      </div>
-                    </div>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-                      <div>
-                        <p className="text-sm font-medium text-muted-foreground">Site</p>
-                        <div className="flex items-center space-x-1">
-                          <Globe className="w-3 h-3" />
-                          <a 
-                            href={pixel.site} 
-                            target="_blank" 
-                            rel="noopener noreferrer"
-                            className="text-sm text-primary hover:underline"
+                        <div className="flex items-center space-x-2">
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => setSelectedPixel(pixel)}
                           >
-                            {new URL(pixel.site).hostname}
-                          </a>
+                            <Code className="w-4 h-4 mr-2" />
+                            Ver Código
+                          </Button>
+                          <Button variant="outline" size="sm">
+                            <Edit className="w-4 h-4" />
+                          </Button>
                         </div>
                       </div>
-                      <div>
-                        <p className="text-sm font-medium text-muted-foreground">Total Hits</p>
-                        <p className="text-sm font-bold">{pixel.totalHits.toLocaleString()}</p>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+                        <div>
+                          <p className="text-sm font-medium text-muted-foreground">
+                            Site
+                          </p>
+                          <div className="flex items-center space-x-1">
+                            <Globe className="w-3 h-3" />
+                            <a
+                              href={pixel.site}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-sm text-primary hover:underline"
+                            >
+                              {new URL(pixel.site).hostname}
+                            </a>
+                          </div>
+                        </div>
+                        <div>
+                          <p className="text-sm font-medium text-muted-foreground">
+                            Total Hits
+                          </p>
+                          <p className="text-sm font-bold">
+                            {pixel.totalHits.toLocaleString()}
+                          </p>
+                        </div>
+                        <div>
+                          <p className="text-sm font-medium text-muted-foreground">
+                            Visitantes
+                          </p>
+                          <p className="text-sm font-bold">
+                            {pixel.uniqueVisitors.toLocaleString()}
+                          </p>
+                        </div>
+                        <div>
+                          <p className="text-sm font-medium text-muted-foreground">
+                            Conversões
+                          </p>
+                          <p className="text-sm font-bold">
+                            {pixel.conversions}
+                          </p>
+                        </div>
+                        <div>
+                          <p className="text-sm font-medium text-muted-foreground">
+                            Último Hit
+                          </p>
+                          <p className="text-sm">{formatDate(pixel.lastHit)}</p>
+                        </div>
                       </div>
-                      <div>
-                        <p className="text-sm font-medium text-muted-foreground">Visitantes</p>
-                        <p className="text-sm font-bold">{pixel.uniqueVisitors.toLocaleString()}</p>
-                      </div>
-                      <div>
-                        <p className="text-sm font-medium text-muted-foreground">Conversões</p>
-                        <p className="text-sm font-bold">{pixel.conversions}</p>
-                      </div>
-                      <div>
-                        <p className="text-sm font-medium text-muted-foreground">Último Hit</p>
-                        <p className="text-sm">{formatDate(pixel.lastHit)}</p>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
+                    </CardContent>
+                  </Card>
                 ))}
               </div>
             )}
@@ -429,13 +515,20 @@ export default function Pixel() {
               <CardContent>
                 <div className="space-y-4">
                   {pixels.map((pixel) => (
-                    <div key={pixel.id} className="flex items-center justify-between p-3 border rounded-lg">
+                    <div
+                      key={pixel.id}
+                      className="flex items-center justify-between p-3 border rounded-lg"
+                    >
                       <div>
                         <h3 className="font-medium">{pixel.name}</h3>
-                        <p className="text-sm text-muted-foreground">{pixel.site}</p>
+                        <p className="text-sm text-muted-foreground">
+                          {pixel.site}
+                        </p>
                       </div>
                       <div className="text-right">
-                        <div className="text-lg font-bold">{pixel.conversionRate.toFixed(2)}%</div>
+                        <div className="text-lg font-bold">
+                          {pixel.conversionRate.toFixed(2)}%
+                        </div>
                         <div className="text-sm text-muted-foreground">
                           {pixel.conversions}/{pixel.uniqueVisitors} conversões
                         </div>
@@ -455,44 +548,68 @@ export default function Pixel() {
               </CardHeader>
               <CardContent className="space-y-4">
                 <div>
-                  <h3 className="text-lg font-semibold mb-2">1. Criando um Pixel</h3>
+                  <h3 className="text-lg font-semibold mb-2">
+                    1. Criando um Pixel
+                  </h3>
                   <p className="text-muted-foreground">
-                    Clique em "Novo Pixel" e preencha as informações do seu site. 
-                    O sistema irá gerar automaticamente um código de tracking único.
-                  </p>
-                </div>
-                
-                <div>
-                  <h3 className="text-lg font-semibold mb-2">2. Instalando o Código</h3>
-                  <p className="text-muted-foreground">
-                    Copie o código gerado e cole no &lt;head&gt; de todas as p��ginas do seu site 
-                    que você deseja rastrear.
-                  </p>
-                </div>
-                
-                <div>
-                  <h3 className="text-lg font-semibold mb-2">3. Eventos Rastreados</h3>
-                  <ul className="list-disc list-inside text-muted-foreground space-y-1">
-                    <li>Visualizações de página automáticas</li>
-                    <li>Envios de formulário</li>
-                    <li>Cliques em botões CTA (elementos com classes: .btn-cta, .hero-cta, .footer-cta)</li>
-                    <li>Elementos com atributo data-ecko-track</li>
-                  </ul>
-                </div>
-                
-                <div>
-                  <h3 className="text-lg font-semibold mb-2">4. Monitoramento</h3>
-                  <p className="text-muted-foreground">
-                    Acompanhe o desempenho do seu pixel na aba "Analytics" e veja
-                    dados detalhados de conversões e engajamento.
+                    Clique em "Novo Pixel" e preencha as informações do seu
+                    site. O sistema irá gerar automaticamente um código de
+                    tracking único.
                   </p>
                 </div>
 
                 <div>
-                  <h3 className="text-lg font-semibold mb-2">5. Informações Técnicas</h3>
+                  <h3 className="text-lg font-semibold mb-2">
+                    2. Instalando o Código
+                  </h3>
+                  <p className="text-muted-foreground">
+                    Copie o código gerado e cole no &lt;head&gt; de todas as
+                    p��ginas do seu site que você deseja rastrear.
+                  </p>
+                </div>
+
+                <div>
+                  <h3 className="text-lg font-semibold mb-2">
+                    3. Eventos Rastreados
+                  </h3>
                   <ul className="list-disc list-inside text-muted-foreground space-y-1">
-                    <li>Sistema hospedado em: <code className="bg-muted px-1 rounded">ntk.idenegociosdigitais.com.br</code></li>
-                    <li>Endpoint de tracking: <code className="bg-muted px-1 rounded">/api/pixel/track</code></li>
+                    <li>Visualizações de página automáticas</li>
+                    <li>Envios de formulário</li>
+                    <li>
+                      Cliques em botões CTA (elementos com classes: .btn-cta,
+                      .hero-cta, .footer-cta)
+                    </li>
+                    <li>Elementos com atributo data-ecko-track</li>
+                  </ul>
+                </div>
+
+                <div>
+                  <h3 className="text-lg font-semibold mb-2">
+                    4. Monitoramento
+                  </h3>
+                  <p className="text-muted-foreground">
+                    Acompanhe o desempenho do seu pixel na aba "Analytics" e
+                    veja dados detalhados de conversões e engajamento.
+                  </p>
+                </div>
+
+                <div>
+                  <h3 className="text-lg font-semibold mb-2">
+                    5. Informações Técnicas
+                  </h3>
+                  <ul className="list-disc list-inside text-muted-foreground space-y-1">
+                    <li>
+                      Sistema hospedado em:{" "}
+                      <code className="bg-muted px-1 rounded">
+                        ntk.idenegociosdigitais.com.br
+                      </code>
+                    </li>
+                    <li>
+                      Endpoint de tracking:{" "}
+                      <code className="bg-muted px-1 rounded">
+                        /api/pixel/track
+                      </code>
+                    </li>
                     <li>Dados enviados via HTTPS para garantir segurança</li>
                     <li>Compatível com todos os navegadores modernos</li>
                   </ul>
@@ -504,7 +621,10 @@ export default function Pixel() {
 
         {/* Pixel Code Dialog */}
         {selectedPixel && (
-          <Dialog open={!!selectedPixel} onOpenChange={() => setSelectedPixel(null)}>
+          <Dialog
+            open={!!selectedPixel}
+            onOpenChange={() => setSelectedPixel(null)}
+          >
             <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
               <DialogHeader>
                 <DialogTitle>Código do Pixel: {selectedPixel.name}</DialogTitle>
@@ -514,13 +634,25 @@ export default function Pixel() {
                   <Label>Código para Instalação</Label>
                   <div className="relative">
                     <pre className="bg-muted p-4 rounded-lg text-xs overflow-x-auto max-h-64 border font-mono whitespace-pre-wrap break-all">
-                      <code>{generatePixelCode(selectedPixel.code, selectedPixel.site)}</code>
+                      <code>
+                        {generatePixelCode(
+                          selectedPixel.code,
+                          selectedPixel.site,
+                        )}
+                      </code>
                     </pre>
                     <Button
                       className="absolute top-2 right-2"
                       size="sm"
                       variant="outline"
-                      onClick={() => copyToClipboard(generatePixelCode(selectedPixel.code, selectedPixel.site))}
+                      onClick={() =>
+                        copyToClipboard(
+                          generatePixelCode(
+                            selectedPixel.code,
+                            selectedPixel.site,
+                          ),
+                        )
+                      }
                     >
                       {copied ? (
                         <>
@@ -538,11 +670,13 @@ export default function Pixel() {
                     Instruções de Instalação
                   </h4>
                   <p className="text-sm text-blue-700 dark:text-blue-300 mb-2">
-                    Cole este código no &lt;head&gt; de todas as páginas do seu site.
-                    O pixel começará a coletar dados automaticamente após a instalação.
+                    Cole este código no &lt;head&gt; de todas as páginas do seu
+                    site. O pixel começará a coletar dados automaticamente após
+                    a instalação.
                   </p>
                   <p className="text-xs text-blue-600 dark:text-blue-400">
-                    📍 Dados enviados para: <strong>ntk.idenegociosdigitais.com.br</strong>
+                    📍 Dados enviados para:{" "}
+                    <strong>ntk.idenegociosdigitais.com.br</strong>
                   </p>
                 </div>
               </div>

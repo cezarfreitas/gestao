@@ -1,4 +1,4 @@
-import { query, testConnection } from './connection.js';
+import { query, testConnection } from "./connection.js";
 
 // SQL for creating tables
 const createTablesSQL = {
@@ -146,33 +146,40 @@ const createTablesSQL = {
       INDEX idx_site_name (site_name),
       INDEX idx_source (source)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
-  `
+  `,
 };
 
 // Initialize database tables
 export const initializeDatabase = async () => {
   try {
-    console.log('🔄 Testing database connection...');
+    console.log("🔄 Testing database connection...");
     const connected = await testConnection();
-    
+
     if (!connected) {
-      throw new Error('Failed to connect to database');
+      throw new Error("Failed to connect to database");
     }
 
-    console.log('🔄 Creating database tables...');
-    
+    console.log("🔄 Creating database tables...");
+
     // Create tables in order (considering foreign key dependencies)
-    const tableOrder = ['leads', 'traffic', 'interactions', 'pixels', 'pixel_events', 'lead_stats'];
-    
+    const tableOrder = [
+      "leads",
+      "traffic",
+      "interactions",
+      "pixels",
+      "pixel_events",
+      "lead_stats",
+    ];
+
     for (const tableName of tableOrder) {
       console.log(`Creating table: ${tableName}`);
       await query(createTablesSQL[tableName as keyof typeof createTablesSQL]);
     }
 
-    console.log('✅ Database initialization completed successfully');
+    console.log("✅ Database initialization completed successfully");
     return true;
   } catch (error) {
-    console.error('❌ Database initialization failed:', error);
+    console.error("❌ Database initialization failed:", error);
     throw error;
   }
 };
@@ -180,33 +187,33 @@ export const initializeDatabase = async () => {
 // Insert sample data for testing
 export const insertSampleData = async () => {
   try {
-    console.log('🔄 Inserting sample data...');
-    
+    console.log("🔄 Inserting sample data...");
+
     // Sample lead data
-    const sampleLeadId = 'lead_' + Date.now();
+    const sampleLeadId = "lead_" + Date.now();
     const leadSQL = `
       INSERT IGNORE INTO leads (
         id, type, site_title, site_name, site_url, nome, whatsapp, cnpj, tipo_loja, cep,
         origin, timestamp, source, status, priority
       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
-    
+
     await query(leadSQL, [
       sampleLeadId,
-      'form_with_cnpj',
-      'Ecko Streetwear - Seja um Lojista Oficial',
-      'Ecko Streetwear',
-      'https://ecko.com.br',
-      'João Silva',
-      '(11) 99999-9999',
-      'sim',
-      'fisica-ecommerce',
-      '01000-000',
-      'hero_cta',
-      new Date('2024-01-15T10:30:00.000Z'),
-      'website',
-      'new',
-      'high'
+      "form_with_cnpj",
+      "Ecko Streetwear - Seja um Lojista Oficial",
+      "Ecko Streetwear",
+      "https://ecko.com.br",
+      "João Silva",
+      "(11) 99999-9999",
+      "sim",
+      "fisica-ecommerce",
+      "01000-000",
+      "hero_cta",
+      new Date("2024-01-15T10:30:00.000Z"),
+      "website",
+      "new",
+      "high",
     ]);
 
     // Sample traffic data
@@ -216,21 +223,21 @@ export const insertSampleData = async () => {
         viewport_size, timezone, cookies_enabled, online_status, url, pathname, search
       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
-    
+
     await query(trafficSQL, [
       sampleLeadId,
-      'https://google.com',
-      'Mozilla/5.0...',
-      'pt-BR',
-      'Win32',
-      '1920x1080',
-      '1366x768',
-      'America/Sao_Paulo',
+      "https://google.com",
+      "Mozilla/5.0...",
+      "pt-BR",
+      "Win32",
+      "1920x1080",
+      "1366x768",
+      "America/Sao_Paulo",
       true,
       true,
-      'https://ecko.com.br',
-      '/',
-      '?utm_source=google'
+      "https://ecko.com.br",
+      "/",
+      "?utm_source=google",
     ]);
 
     // Sample interaction data
@@ -240,45 +247,45 @@ export const insertSampleData = async () => {
         page_views, scroll_depth, touch_device, connection_type
       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
-    
+
     await query(interactionSQL, [
       sampleLeadId,
-      new Date('2024-01-15T10:25:00.000Z'),
+      new Date("2024-01-15T10:25:00.000Z"),
       320,
-      new Date('2024-01-15T10:30:00.000Z'),
-      'lfpxy8z1abc',
+      new Date("2024-01-15T10:30:00.000Z"),
+      "lfpxy8z1abc",
       3,
       75,
       false,
-      '4g'
+      "4g",
     ]);
 
     // Sample pixel data
-    const pixelId = 'px_' + Date.now();
+    const pixelId = "px_" + Date.now();
     const pixelSQL = `
       INSERT IGNORE INTO pixels (
         id, name, description, code, status, site, total_hits, unique_visitors, conversions, conversion_rate, last_hit
       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
-    
+
     await query(pixelSQL, [
       pixelId,
-      'Ecko Streetwear - Homepage',
-      'Pixel principal para tracking da homepage',
-      'px_001_ecko_main',
-      'active',
-      'https://ecko.com.br',
+      "Ecko Streetwear - Homepage",
+      "Pixel principal para tracking da homepage",
+      "px_001_ecko_main",
+      "active",
+      "https://ecko.com.br",
       15420,
       8930,
       234,
       2.62,
-      new Date()
+      new Date(),
     ]);
 
-    console.log('✅ Sample data inserted successfully');
+    console.log("✅ Sample data inserted successfully");
     return true;
   } catch (error) {
-    console.error('❌ Failed to insert sample data:', error);
+    console.error("❌ Failed to insert sample data:", error);
     throw error;
   }
 };
@@ -286,25 +293,32 @@ export const insertSampleData = async () => {
 // Drop all tables (for development reset)
 export const dropAllTables = async () => {
   try {
-    console.log('🔄 Dropping all tables...');
-    
-    const dropOrder = ['pixel_events', 'interactions', 'traffic', 'lead_stats', 'pixels', 'leads'];
-    
+    console.log("🔄 Dropping all tables...");
+
+    const dropOrder = [
+      "pixel_events",
+      "interactions",
+      "traffic",
+      "lead_stats",
+      "pixels",
+      "leads",
+    ];
+
     // Disable foreign key checks temporarily
-    await query('SET FOREIGN_KEY_CHECKS = 0');
-    
+    await query("SET FOREIGN_KEY_CHECKS = 0");
+
     for (const tableName of dropOrder) {
       await query(`DROP TABLE IF EXISTS ${tableName}`);
       console.log(`Dropped table: ${tableName}`);
     }
-    
+
     // Re-enable foreign key checks
-    await query('SET FOREIGN_KEY_CHECKS = 1');
-    
-    console.log('✅ All tables dropped successfully');
+    await query("SET FOREIGN_KEY_CHECKS = 1");
+
+    console.log("✅ All tables dropped successfully");
     return true;
   } catch (error) {
-    console.error('❌ Failed to drop tables:', error);
+    console.error("❌ Failed to drop tables:", error);
     throw error;
   }
 };

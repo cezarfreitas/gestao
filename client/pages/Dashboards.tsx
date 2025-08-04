@@ -6,8 +6,23 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from "recharts";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  Legend,
+} from "recharts";
 import {
   Users,
   TrendingUp,
@@ -30,7 +45,7 @@ import {
   Activity,
   Target,
   ExternalLink,
-  Code
+  Code,
 } from "lucide-react";
 
 // Mock data for 7 different sites
@@ -41,7 +56,7 @@ const mockSites = [
     url: "https://ecko.com.br",
     leads: 892,
     conversion: 15.2,
-    status: "active"
+    status: "active",
   },
   {
     name: "Ecko Kids",
@@ -49,7 +64,7 @@ const mockSites = [
     url: "https://kids.ecko.com.br",
     leads: 567,
     conversion: 12.8,
-    status: "active"
+    status: "active",
   },
   {
     name: "Ecko Feminino",
@@ -57,7 +72,7 @@ const mockSites = [
     url: "https://women.ecko.com.br",
     leads: 423,
     conversion: 18.1,
-    status: "active"
+    status: "active",
   },
   {
     name: "Ecko Outlet",
@@ -65,7 +80,7 @@ const mockSites = [
     url: "https://outlet.ecko.com.br",
     leads: 334,
     conversion: 9.4,
-    status: "active"
+    status: "active",
   },
   {
     name: "Ecko Pro",
@@ -73,7 +88,7 @@ const mockSites = [
     url: "https://pro.ecko.com.br",
     leads: 289,
     conversion: 22.3,
-    status: "active"
+    status: "active",
   },
   {
     name: "Ecko Accessories",
@@ -81,7 +96,7 @@ const mockSites = [
     url: "https://accessories.ecko.com.br",
     leads: 198,
     conversion: 14.7,
-    status: "active"
+    status: "active",
   },
   {
     name: "Ecko Limited",
@@ -89,8 +104,8 @@ const mockSites = [
     url: "https://limited.ecko.com.br",
     leads: 156,
     conversion: 28.5,
-    status: "beta"
-  }
+    status: "beta",
+  },
 ];
 
 // Mock analytics data based on the payload structure
@@ -99,50 +114,50 @@ const mockAnalytics = {
     { name: "Website", value: 45, count: 892 },
     { name: "Social Media", value: 25, count: 496 },
     { name: "Google Ads", value: 20, count: 396 },
-    { name: "Referral", value: 10, count: 198 }
+    { name: "Referral", value: 10, count: 198 },
   ],
   leadOrigins: [
     { name: "hero_cta", value: 35, count: 693 },
     { name: "footer_form", value: 25, count: 495 },
     { name: "sidebar_cta", value: 20, count: 396 },
     { name: "popup_form", value: 15, count: 297 },
-    { name: "newsletter", value: 5, count: 99 }
+    { name: "newsletter", value: 5, count: 99 },
   ],
   deviceTypes: [
     { name: "Desktop", value: 60, count: 1188 },
     { name: "Mobile", value: 35, count: 693 },
-    { name: "Tablet", value: 5, count: 99 }
+    { name: "Tablet", value: 5, count: 99 },
   ],
   platforms: [
     { name: "Windows", value: 45, count: 891 },
     { name: "Android", value: 25, count: 495 },
     { name: "iOS", value: 20, count: 396 },
-    { name: "macOS", value: 10, count: 198 }
+    { name: "macOS", value: 10, count: 198 },
   ],
   connectionTypes: [
     { name: "WiFi", value: 55, count: 1089 },
     { name: "4G", value: 30, count: 594 },
     { name: "3G", value: 10, count: 198 },
-    { name: "5G", value: 5, count: 99 }
+    { name: "5G", value: 5, count: 99 },
   ],
   timeMetrics: {
     avgTimeOnSite: 245,
     avgPageViews: 3.2,
     avgScrollDepth: 68,
-    bounceRate: 24
+    bounceRate: 24,
   },
   storeTypes: [
     { name: "fisica-ecommerce", value: 40, count: 792 },
     { name: "fisica", value: 35, count: 693 },
-    { name: "ecommerce", value: 25, count: 495 }
+    { name: "ecommerce", value: 25, count: 495 },
   ],
   topRegions: [
     { region: "São Paulo", count: 423, percentage: 21.3 },
     { region: "Rio de Janeiro", count: 298, percentage: 15.0 },
     { region: "Minas Gerais", count: 245, percentage: 12.3 },
     { region: "Paraná", count: 189, percentage: 9.5 },
-    { region: "Bahia", count: 156, percentage: 7.8 }
-  ]
+    { region: "Bahia", count: 156, percentage: 7.8 },
+  ],
 };
 
 const mockStats: LeadStatsResponse = {
@@ -157,13 +172,13 @@ const mockStats: LeadStatsResponse = {
     website: 892,
     social: 496,
     ads: 396,
-    referral: 196
+    referral: 196,
   },
   leadsByType: {
-    "form_with_cnpj": 1485,
-    "newsletter": 297,
-    "contact": 198
-  }
+    form_with_cnpj: 1485,
+    newsletter: 297,
+    contact: 198,
+  },
 };
 
 // Generate mock daily leads data for the last 30 days with individual site data
@@ -175,26 +190,37 @@ const generateDailyLeadsData = () => {
     const date = new Date(today);
     date.setDate(date.getDate() - i);
 
-    const weekdayMultiplier = date.getDay() >= 1 && date.getDay() <= 5 ? 1.2 : 0.8;
+    const weekdayMultiplier =
+      date.getDay() >= 1 && date.getDay() <= 5 ? 1.2 : 0.8;
 
     // Generate leads for each site based on their relative performance
     const siteLeads = {
-      'Ecko Streetwear': Math.round((8 + Math.random() * 12) * weekdayMultiplier),
-      'Ecko Kids': Math.round((4 + Math.random() * 8) * weekdayMultiplier),
-      'Ecko Feminino': Math.round((3 + Math.random() * 6) * weekdayMultiplier),
-      'Ecko Outlet': Math.round((2 + Math.random() * 5) * weekdayMultiplier),
-      'Ecko Pro': Math.round((2 + Math.random() * 4) * weekdayMultiplier),
-      'Ecko Accessories': Math.round((1 + Math.random() * 3) * weekdayMultiplier),
-      'Ecko Limited': Math.round((1 + Math.random() * 2) * weekdayMultiplier)
+      "Ecko Streetwear": Math.round(
+        (8 + Math.random() * 12) * weekdayMultiplier,
+      ),
+      "Ecko Kids": Math.round((4 + Math.random() * 8) * weekdayMultiplier),
+      "Ecko Feminino": Math.round((3 + Math.random() * 6) * weekdayMultiplier),
+      "Ecko Outlet": Math.round((2 + Math.random() * 5) * weekdayMultiplier),
+      "Ecko Pro": Math.round((2 + Math.random() * 4) * weekdayMultiplier),
+      "Ecko Accessories": Math.round(
+        (1 + Math.random() * 3) * weekdayMultiplier,
+      ),
+      "Ecko Limited": Math.round((1 + Math.random() * 2) * weekdayMultiplier),
     };
 
-    const totalLeads = Object.values(siteLeads).reduce((sum, leads) => sum + leads, 0);
+    const totalLeads = Object.values(siteLeads).reduce(
+      (sum, leads) => sum + leads,
+      0,
+    );
 
     data.push({
-      date: date.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' }),
-      fullDate: date.toLocaleDateString('pt-BR'),
+      date: date.toLocaleDateString("pt-BR", {
+        day: "2-digit",
+        month: "2-digit",
+      }),
+      fullDate: date.toLocaleDateString("pt-BR"),
       total: totalLeads,
-      ...siteLeads
+      ...siteLeads,
     });
   }
 
@@ -205,13 +231,13 @@ const dailyLeadsData = generateDailyLeadsData();
 
 // Color palette for different sites
 const siteColors = {
-  'Ecko Streetwear': '#2563eb', // Blue
-  'Ecko Kids': '#dc2626', // Red
-  'Ecko Feminino': '#c026d3', // Magenta
-  'Ecko Outlet': '#ea580c', // Orange
-  'Ecko Pro': '#16a34a', // Green
-  'Ecko Accessories': '#7c3aed', // Purple
-  'Ecko Limited': '#0891b2' // Cyan
+  "Ecko Streetwear": "#2563eb", // Blue
+  "Ecko Kids": "#dc2626", // Red
+  "Ecko Feminino": "#c026d3", // Magenta
+  "Ecko Outlet": "#ea580c", // Orange
+  "Ecko Pro": "#16a34a", // Green
+  "Ecko Accessories": "#7c3aed", // Purple
+  "Ecko Limited": "#0891b2", // Cyan
 };
 
 const formatTime = (seconds: number) => {
@@ -233,11 +259,17 @@ export default function Dashboards() {
             <div className="flex items-center space-x-6">
               <div className="flex items-center space-x-4">
                 <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-                  <span className="text-primary-foreground font-bold text-lg">E</span>
+                  <span className="text-primary-foreground font-bold text-lg">
+                    E
+                  </span>
                 </div>
                 <div>
-                  <h1 className="text-2xl font-bold text-foreground">Ecko Streetwear</h1>
-                  <p className="text-sm text-muted-foreground">Sistema de Gestão de Leads</p>
+                  <h1 className="text-2xl font-bold text-foreground">
+                    Ecko Streetwear
+                  </h1>
+                  <p className="text-sm text-muted-foreground">
+                    Sistema de Gestão de Leads
+                  </p>
                 </div>
               </div>
 
@@ -298,11 +330,15 @@ export default function Dashboards() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total de Leads</CardTitle>
+              <CardTitle className="text-sm font-medium">
+                Total de Leads
+              </CardTitle>
               <Users className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{stats.totalLeads.toLocaleString()}</div>
+              <div className="text-2xl font-bold">
+                {stats.totalLeads.toLocaleString()}
+              </div>
               <p className="text-xs text-muted-foreground">
                 +{stats.newLeads} nos últimos 7 dias
               </p>
@@ -311,7 +347,9 @@ export default function Dashboards() {
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Taxa de Conversão</CardTitle>
+              <CardTitle className="text-sm font-medium">
+                Taxa de Conversão
+              </CardTitle>
               <Target className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
@@ -328,7 +366,9 @@ export default function Dashboards() {
               <Clock className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{formatTime(mockAnalytics.timeMetrics.avgTimeOnSite)}</div>
+              <div className="text-2xl font-bold">
+                {formatTime(mockAnalytics.timeMetrics.avgTimeOnSite)}
+              </div>
               <p className="text-xs text-muted-foreground">
                 {mockAnalytics.timeMetrics.avgPageViews} páginas/sessão
               </p>
@@ -337,11 +377,15 @@ export default function Dashboards() {
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Taxa de Rejeição</CardTitle>
+              <CardTitle className="text-sm font-medium">
+                Taxa de Rejeição
+              </CardTitle>
               <Activity className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{mockAnalytics.timeMetrics.bounceRate}%</div>
+              <div className="text-2xl font-bold">
+                {mockAnalytics.timeMetrics.bounceRate}%
+              </div>
               <p className="text-xs text-muted-foreground">
                 {mockAnalytics.timeMetrics.avgScrollDepth}% scroll médio
               </p>
@@ -358,9 +402,20 @@ export default function Dashboards() {
                 <span>Entrada de Leads - Últimos 30 Dias</span>
               </CardTitle>
               <div className="flex items-center space-x-2 text-sm text-muted-foreground">
-                <span>Total: {dailyLeadsData.reduce((sum, day) => sum + day.total, 0)} leads</span>
+                <span>
+                  Total:{" "}
+                  {dailyLeadsData.reduce((sum, day) => sum + day.total, 0)}{" "}
+                  leads
+                </span>
                 <span>•</span>
-                <span>Média: {Math.round(dailyLeadsData.reduce((sum, day) => sum + day.total, 0) / dailyLeadsData.length)} leads/dia</span>
+                <span>
+                  Média:{" "}
+                  {Math.round(
+                    dailyLeadsData.reduce((sum, day) => sum + day.total, 0) /
+                      dailyLeadsData.length,
+                  )}{" "}
+                  leads/dia
+                </span>
               </div>
             </div>
           </CardHeader>
@@ -372,25 +427,31 @@ export default function Dashboards() {
                   <XAxis
                     dataKey="date"
                     tick={{ fontSize: 12 }}
-                    tickLine={{ stroke: 'hsl(var(--muted-foreground))', strokeWidth: 1 }}
-                    axisLine={{ stroke: 'hsl(var(--border))' }}
+                    tickLine={{
+                      stroke: "hsl(var(--muted-foreground))",
+                      strokeWidth: 1,
+                    }}
+                    axisLine={{ stroke: "hsl(var(--border))" }}
                   />
                   <YAxis
                     tick={{ fontSize: 12 }}
-                    tickLine={{ stroke: 'hsl(var(--muted-foreground))', strokeWidth: 1 }}
-                    axisLine={{ stroke: 'hsl(var(--border))' }}
+                    tickLine={{
+                      stroke: "hsl(var(--muted-foreground))",
+                      strokeWidth: 1,
+                    }}
+                    axisLine={{ stroke: "hsl(var(--border))" }}
                   />
                   <Tooltip
                     contentStyle={{
-                      backgroundColor: 'hsl(var(--card))',
-                      border: '1px solid hsl(var(--border))',
-                      borderRadius: '6px',
-                      boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)'
+                      backgroundColor: "hsl(var(--card))",
+                      border: "1px solid hsl(var(--border))",
+                      borderRadius: "6px",
+                      boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1)",
                     }}
-                    labelStyle={{ color: 'hsl(var(--foreground))' }}
+                    labelStyle={{ color: "hsl(var(--foreground))" }}
                     formatter={(value: any, name: string) => [
                       `${value} leads`,
-                      name
+                      name,
                     ]}
                     labelFormatter={(label: any, payload: any) => {
                       if (payload && payload[0]) {
@@ -400,7 +461,7 @@ export default function Dashboards() {
                     }}
                   />
                   <Legend
-                    wrapperStyle={{ paddingTop: '20px' }}
+                    wrapperStyle={{ paddingTop: "20px" }}
                     iconType="line"
                   />
 
@@ -424,21 +485,36 @@ export default function Dashboards() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6 pt-6 border-t">
               <div className="text-center">
                 <div className="text-2xl font-bold text-green-600 dark:text-green-400">
-                  {Math.max(...dailyLeadsData.map(d => d.total))}
+                  {Math.max(...dailyLeadsData.map((d) => d.total))}
                 </div>
                 <div className="text-sm text-muted-foreground">Melhor Dia</div>
                 <div className="text-xs text-muted-foreground mt-1">
-                  {dailyLeadsData.find(d => d.total === Math.max(...dailyLeadsData.map(d => d.total)))?.fullDate}
+                  {
+                    dailyLeadsData.find(
+                      (d) =>
+                        d.total ===
+                        Math.max(...dailyLeadsData.map((d) => d.total)),
+                    )?.fullDate
+                  }
                 </div>
               </div>
 
               <div className="text-center">
                 <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">
-                  {Math.round(dailyLeadsData.slice(-7).reduce((sum, day) => sum + day.total, 0) / 7)}
+                  {Math.round(
+                    dailyLeadsData
+                      .slice(-7)
+                      .reduce((sum, day) => sum + day.total, 0) / 7,
+                  )}
                 </div>
-                <div className="text-sm text-muted-foreground">Média Últimos 7 Dias</div>
+                <div className="text-sm text-muted-foreground">
+                  Média Últimos 7 Dias
+                </div>
                 <div className="text-xs text-muted-foreground mt-1">
-                  {dailyLeadsData.slice(-7).reduce((sum, day) => sum + day.total, 0)} leads na semana
+                  {dailyLeadsData
+                    .slice(-7)
+                    .reduce((sum, day) => sum + day.total, 0)}{" "}
+                  leads na semana
                 </div>
               </div>
 
@@ -448,8 +524,12 @@ export default function Dashboards() {
                 </div>
                 <div className="text-sm text-muted-foreground">Hoje</div>
                 <div className="text-xs text-muted-foreground mt-1">
-                  {((dailyLeadsData[dailyLeadsData.length - 1]?.total || 0) > (dailyLeadsData[dailyLeadsData.length - 2]?.total || 0)) ? '📈' : '📉'}
-                  {' '}vs ontem ({dailyLeadsData[dailyLeadsData.length - 2]?.total || 0})
+                  {(dailyLeadsData[dailyLeadsData.length - 1]?.total || 0) >
+                  (dailyLeadsData[dailyLeadsData.length - 2]?.total || 0)
+                    ? "📈"
+                    : "📉"}{" "}
+                  vs ontem (
+                  {dailyLeadsData[dailyLeadsData.length - 2]?.total || 0})
                 </div>
               </div>
             </div>
@@ -480,9 +560,13 @@ export default function Dashboards() {
                   {mockAnalytics.leadSources.map((source) => (
                     <div key={source.name} className="space-y-2">
                       <div className="flex justify-between items-center">
-                        <span className="text-sm font-medium">{source.name}</span>
+                        <span className="text-sm font-medium">
+                          {source.name}
+                        </span>
                         <div className="flex items-center space-x-2">
-                          <span className="text-sm text-muted-foreground">{source.count}</span>
+                          <span className="text-sm text-muted-foreground">
+                            {source.count}
+                          </span>
                           <Badge variant="secondary">{source.value}%</Badge>
                         </div>
                       </div>
@@ -504,9 +588,13 @@ export default function Dashboards() {
                   {mockAnalytics.leadOrigins.map((origin) => (
                     <div key={origin.name} className="space-y-2">
                       <div className="flex justify-between items-center">
-                        <span className="text-sm font-medium">{origin.name}</span>
+                        <span className="text-sm font-medium">
+                          {origin.name}
+                        </span>
                         <div className="flex items-center space-x-2">
-                          <span className="text-sm text-muted-foreground">{origin.count}</span>
+                          <span className="text-sm text-muted-foreground">
+                            {origin.count}
+                          </span>
                           <Badge variant="secondary">{origin.value}%</Badge>
                         </div>
                       </div>
@@ -528,9 +616,16 @@ export default function Dashboards() {
               <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   {mockAnalytics.storeTypes.map((type) => (
-                    <div key={type.name} className="text-center p-4 border rounded-lg">
-                      <div className="text-2xl font-bold text-primary mb-2">{type.count}</div>
-                      <div className="text-sm font-medium mb-1">{type.name}</div>
+                    <div
+                      key={type.name}
+                      className="text-center p-4 border rounded-lg"
+                    >
+                      <div className="text-2xl font-bold text-primary mb-2">
+                        {type.count}
+                      </div>
+                      <div className="text-sm font-medium mb-1">
+                        {type.name}
+                      </div>
                       <Badge variant="outline">{type.value}%</Badge>
                     </div>
                   ))}
@@ -554,9 +649,13 @@ export default function Dashboards() {
                   {mockAnalytics.deviceTypes.map((device) => (
                     <div key={device.name} className="space-y-2">
                       <div className="flex justify-between items-center">
-                        <span className="text-sm font-medium">{device.name}</span>
+                        <span className="text-sm font-medium">
+                          {device.name}
+                        </span>
                         <div className="flex items-center space-x-2">
-                          <span className="text-sm text-muted-foreground">{device.count}</span>
+                          <span className="text-sm text-muted-foreground">
+                            {device.count}
+                          </span>
                           <Badge variant="secondary">{device.value}%</Badge>
                         </div>
                       </div>
@@ -578,9 +677,13 @@ export default function Dashboards() {
                   {mockAnalytics.platforms.map((platform) => (
                     <div key={platform.name} className="space-y-2">
                       <div className="flex justify-between items-center">
-                        <span className="text-sm font-medium">{platform.name}</span>
+                        <span className="text-sm font-medium">
+                          {platform.name}
+                        </span>
                         <div className="flex items-center space-x-2">
-                          <span className="text-sm text-muted-foreground">{platform.count}</span>
+                          <span className="text-sm text-muted-foreground">
+                            {platform.count}
+                          </span>
                           <Badge variant="secondary">{platform.value}%</Badge>
                         </div>
                       </div>
@@ -602,10 +705,19 @@ export default function Dashboards() {
               <CardContent>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                   {mockAnalytics.connectionTypes.map((connection) => (
-                    <div key={connection.name} className="text-center p-3 border rounded-lg">
-                      <div className="text-xl font-bold text-primary mb-1">{connection.count}</div>
-                      <div className="text-sm font-medium mb-1">{connection.name}</div>
-                      <Badge variant="outline" className="text-xs">{connection.value}%</Badge>
+                    <div
+                      key={connection.name}
+                      className="text-center p-3 border rounded-lg"
+                    >
+                      <div className="text-xl font-bold text-primary mb-1">
+                        {connection.count}
+                      </div>
+                      <div className="text-sm font-medium mb-1">
+                        {connection.name}
+                      </div>
+                      <Badge variant="outline" className="text-xs">
+                        {connection.value}%
+                      </Badge>
                     </div>
                   ))}
                 </div>
@@ -630,31 +742,45 @@ export default function Dashboards() {
                       <div className="text-2xl font-bold text-primary mb-1">
                         {formatTime(mockAnalytics.timeMetrics.avgTimeOnSite)}
                       </div>
-                      <div className="text-sm text-muted-foreground">Tempo Médio</div>
+                      <div className="text-sm text-muted-foreground">
+                        Tempo Médio
+                      </div>
                     </div>
                     <div className="text-center">
                       <div className="text-2xl font-bold text-primary mb-1">
                         {mockAnalytics.timeMetrics.avgPageViews}
                       </div>
-                      <div className="text-sm text-muted-foreground">Páginas/Sessão</div>
+                      <div className="text-sm text-muted-foreground">
+                        Páginas/Sessão
+                      </div>
                     </div>
                   </div>
-                  
+
                   <div className="space-y-3">
                     <div>
                       <div className="flex justify-between mb-2">
                         <span className="text-sm">Profundidade de Scroll</span>
-                        <span className="text-sm font-medium">{mockAnalytics.timeMetrics.avgScrollDepth}%</span>
+                        <span className="text-sm font-medium">
+                          {mockAnalytics.timeMetrics.avgScrollDepth}%
+                        </span>
                       </div>
-                      <Progress value={mockAnalytics.timeMetrics.avgScrollDepth} className="h-2" />
+                      <Progress
+                        value={mockAnalytics.timeMetrics.avgScrollDepth}
+                        className="h-2"
+                      />
                     </div>
-                    
+
                     <div>
                       <div className="flex justify-between mb-2">
                         <span className="text-sm">Taxa de Rejeição</span>
-                        <span className="text-sm font-medium">{mockAnalytics.timeMetrics.bounceRate}%</span>
+                        <span className="text-sm font-medium">
+                          {mockAnalytics.timeMetrics.bounceRate}%
+                        </span>
                       </div>
-                      <Progress value={mockAnalytics.timeMetrics.bounceRate} className="h-2" />
+                      <Progress
+                        value={mockAnalytics.timeMetrics.bounceRate}
+                        className="h-2"
+                      />
                     </div>
                   </div>
                 </CardContent>
@@ -677,7 +803,7 @@ export default function Dashboards() {
                       75% dos visitantes fazem scroll além de 50% da página
                     </div>
                   </div>
-                  
+
                   <div className="p-3 bg-green-50 dark:bg-green-950 rounded-lg">
                     <div className="text-sm font-medium text-green-900 dark:text-green-100 mb-1">
                       Qualidade do Tráfego
@@ -686,7 +812,7 @@ export default function Dashboards() {
                       Taxa de rejeição baixa (24%) indica tráfego qualificado
                     </div>
                   </div>
-                  
+
                   <div className="p-3 bg-orange-50 dark:bg-orange-950 rounded-lg">
                     <div className="text-sm font-medium text-orange-900 dark:text-orange-100 mb-1">
                       Formul��rio Hero CTA
@@ -712,19 +838,30 @@ export default function Dashboards() {
               <CardContent>
                 <div className="space-y-4">
                   {mockAnalytics.topRegions.map((region, index) => (
-                    <div key={region.region} className="flex items-center justify-between p-3 border rounded-lg">
+                    <div
+                      key={region.region}
+                      className="flex items-center justify-between p-3 border rounded-lg"
+                    >
                       <div className="flex items-center space-x-3">
-                        <Badge variant="outline" className="w-8 h-8 p-0 flex items-center justify-center">
+                        <Badge
+                          variant="outline"
+                          className="w-8 h-8 p-0 flex items-center justify-center"
+                        >
                           {index + 1}
                         </Badge>
                         <div>
                           <div className="font-medium">{region.region}</div>
-                          <div className="text-sm text-muted-foreground">{region.count} leads</div>
+                          <div className="text-sm text-muted-foreground">
+                            {region.count} leads
+                          </div>
                         </div>
                       </div>
                       <div className="text-right">
                         <div className="font-medium">{region.percentage}%</div>
-                        <Progress value={region.percentage} className="h-2 w-20" />
+                        <Progress
+                          value={region.percentage}
+                          className="h-2 w-20"
+                        />
                       </div>
                     </div>
                   ))}
@@ -738,30 +875,57 @@ export default function Dashboards() {
             {/* Site Overview Cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
               {mockSites.map((site) => (
-                <Card key={site.url} className={`${selectedSite === site.url ? 'ring-2 ring-primary' : ''}`}>
+                <Card
+                  key={site.url}
+                  className={`${selectedSite === site.url ? "ring-2 ring-primary" : ""}`}
+                >
                   <CardHeader className="pb-3">
                     <div className="flex items-center justify-between">
-                      <CardTitle className="text-sm font-medium">{site.name}</CardTitle>
-                      <Badge variant={site.status === 'active' ? 'default' : 'secondary'}>
+                      <CardTitle className="text-sm font-medium">
+                        {site.name}
+                      </CardTitle>
+                      <Badge
+                        variant={
+                          site.status === "active" ? "default" : "secondary"
+                        }
+                      >
                         {site.status}
                       </Badge>
                     </div>
-                    <p className="text-xs text-muted-foreground truncate">{site.title}</p>
+                    <p className="text-xs text-muted-foreground truncate">
+                      {site.title}
+                    </p>
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-2">
                       <div className="flex justify-between">
-                        <span className="text-sm text-muted-foreground">Leads</span>
-                        <span className="text-sm font-medium">{site.leads}</span>
+                        <span className="text-sm text-muted-foreground">
+                          Leads
+                        </span>
+                        <span className="text-sm font-medium">
+                          {site.leads}
+                        </span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-sm text-muted-foreground">Conversão</span>
-                        <span className="text-sm font-medium">{site.conversion}%</span>
+                        <span className="text-sm text-muted-foreground">
+                          Conversão
+                        </span>
+                        <span className="text-sm font-medium">
+                          {site.conversion}%
+                        </span>
                       </div>
                       <div className="mt-3">
-                        <Progress value={(site.leads / 1000) * 100} className="h-2" />
+                        <Progress
+                          value={(site.leads / 1000) * 100}
+                          className="h-2"
+                        />
                         <p className="text-xs text-muted-foreground mt-1">
-                          {((site.leads / mockSites.reduce((sum, s) => sum + s.leads, 0)) * 100).toFixed(1)}% do total
+                          {(
+                            (site.leads /
+                              mockSites.reduce((sum, s) => sum + s.leads, 0)) *
+                            100
+                          ).toFixed(1)}
+                          % do total
                         </p>
                       </div>
                     </div>
@@ -786,17 +950,33 @@ export default function Dashboards() {
                       <div key={site.url} className="space-y-2">
                         <div className="flex justify-between items-center">
                           <div className="flex items-center space-x-2">
-                            <Badge variant="outline" className="w-6 h-6 p-0 flex items-center justify-center text-xs">
+                            <Badge
+                              variant="outline"
+                              className="w-6 h-6 p-0 flex items-center justify-center text-xs"
+                            >
                               {index + 1}
                             </Badge>
-                            <span className="text-sm font-medium">{site.name}</span>
+                            <span className="text-sm font-medium">
+                              {site.name}
+                            </span>
                           </div>
                           <div className="text-right">
-                            <div className="text-sm font-medium">{site.leads} leads</div>
-                            <div className="text-xs text-muted-foreground">{site.conversion}% conv.</div>
+                            <div className="text-sm font-medium">
+                              {site.leads} leads
+                            </div>
+                            <div className="text-xs text-muted-foreground">
+                              {site.conversion}% conv.
+                            </div>
                           </div>
                         </div>
-                        <Progress value={(site.leads / Math.max(...mockSites.map(s => s.leads))) * 100} className="h-2" />
+                        <Progress
+                          value={
+                            (site.leads /
+                              Math.max(...mockSites.map((s) => s.leads))) *
+                            100
+                          }
+                          className="h-2"
+                        />
                       </div>
                     ))}
                 </CardContent>
@@ -816,17 +996,33 @@ export default function Dashboards() {
                       <div key={site.url} className="space-y-2">
                         <div className="flex justify-between items-center">
                           <div className="flex items-center space-x-2">
-                            <Badge variant="outline" className="w-6 h-6 p-0 flex items-center justify-center text-xs">
+                            <Badge
+                              variant="outline"
+                              className="w-6 h-6 p-0 flex items-center justify-center text-xs"
+                            >
                               {index + 1}
                             </Badge>
-                            <span className="text-sm font-medium">{site.name}</span>
+                            <span className="text-sm font-medium">
+                              {site.name}
+                            </span>
                           </div>
                           <div className="text-right">
-                            <div className="text-sm font-medium">{site.conversion}%</div>
-                            <div className="text-xs text-muted-foreground">{site.leads} leads</div>
+                            <div className="text-sm font-medium">
+                              {site.conversion}%
+                            </div>
+                            <div className="text-xs text-muted-foreground">
+                              {site.leads} leads
+                            </div>
                           </div>
                         </div>
-                        <Progress value={(site.conversion / Math.max(...mockSites.map(s => s.conversion))) * 100} className="h-2" />
+                        <Progress
+                          value={
+                            (site.conversion /
+                              Math.max(...mockSites.map((s) => s.conversion))) *
+                            100
+                          }
+                          className="h-2"
+                        />
                       </div>
                     ))}
                 </CardContent>
@@ -869,12 +1065,22 @@ export default function Dashboards() {
                             </a>
                           </td>
                           <td className="py-3">
-                            <Badge variant={site.status === 'active' ? 'default' : 'secondary'}>
+                            <Badge
+                              variant={
+                                site.status === "active"
+                                  ? "default"
+                                  : "secondary"
+                              }
+                            >
                               {site.status}
                             </Badge>
                           </td>
-                          <td className="py-3 text-right font-medium">{site.leads}</td>
-                          <td className="py-3 text-right">{site.conversion}%</td>
+                          <td className="py-3 text-right font-medium">
+                            {site.leads}
+                          </td>
+                          <td className="py-3 text-right">
+                            {site.conversion}%
+                          </td>
                         </tr>
                       ))}
                     </tbody>

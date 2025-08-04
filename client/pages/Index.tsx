@@ -5,30 +5,36 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { 
-  Search, 
-  Users, 
-  TrendingUp, 
-  Phone, 
-  Mail, 
-  MapPin, 
-  Clock, 
+import {
+  Search,
+  Users,
+  TrendingUp,
+  Phone,
+  Mail,
+  MapPin,
+  Clock,
   Filter,
   MoreVertical,
   Eye,
   Edit,
   Trash2,
   Download,
-  RefreshCw
+  RefreshCw,
 } from "lucide-react";
-import { 
-  DropdownMenu, 
-  DropdownMenuContent, 
-  DropdownMenuItem, 
-  DropdownMenuTrigger 
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
 const mockStats: LeadStatsResponse = {
@@ -43,13 +49,13 @@ const mockStats: LeadStatsResponse = {
     website: 678,
     social: 234,
     referral: 189,
-    direct: 146
+    direct: 146,
   },
   leadsByType: {
-    "form_with_cnpj": 892,
-    "newsletter": 234,
-    "contact": 121
-  }
+    form_with_cnpj: 892,
+    newsletter: 234,
+    contact: 121,
+  },
 };
 
 const mockLeads: Lead[] = [
@@ -59,14 +65,14 @@ const mockLeads: Lead[] = [
     site: {
       title: "Ecko Streetwear - Seja um Lojista Oficial",
       name: "Ecko Streetwear",
-      url: "https://ecko.com.br"
+      url: "https://ecko.com.br",
     },
     data: {
       nome: "João Silva",
       whatsapp: "(11) 99999-9999",
       cnpj: "sim",
       tipoLoja: "fisica-ecommerce",
-      cep: "01000-000"
+      cep: "01000-000",
     },
     origin: "hero_cta",
     timestamp: "2024-01-15T10:30:00.000Z",
@@ -86,7 +92,7 @@ const mockLeads: Lead[] = [
       url: "https://exemplo.com.br",
       pathname: "/",
       search: "?utm_source=google",
-      hash: ""
+      hash: "",
     },
     interaction: {
       sessionStartTime: "2024-01-15T10:25:00.000Z",
@@ -96,8 +102,8 @@ const mockLeads: Lead[] = [
       pageViews: 3,
       scrollDepth: 75,
       touchDevice: false,
-      connectionType: "4g"
-    }
+      connectionType: "4g",
+    },
   },
   {
     id: "2",
@@ -105,14 +111,14 @@ const mockLeads: Lead[] = [
     site: {
       title: "Ecko Streetwear - Seja um Lojista Oficial",
       name: "Ecko Streetwear",
-      url: "https://ecko.com.br"
+      url: "https://ecko.com.br",
     },
     data: {
       nome: "Maria Santos",
       whatsapp: "(21) 88888-8888",
       cnpj: "sim",
       tipoLoja: "fisica",
-      cep: "20000-000"
+      cep: "20000-000",
     },
     origin: "footer_form",
     timestamp: "2024-01-15T09:15:00.000Z",
@@ -132,7 +138,7 @@ const mockLeads: Lead[] = [
       url: "https://exemplo.com.br",
       pathname: "/lojistas",
       search: "?utm_source=instagram",
-      hash: ""
+      hash: "",
     },
     interaction: {
       sessionStartTime: "2024-01-15T09:10:00.000Z",
@@ -142,38 +148,48 @@ const mockLeads: Lead[] = [
       pageViews: 5,
       scrollDepth: 90,
       touchDevice: true,
-      connectionType: "wifi"
-    }
-  }
+      connectionType: "wifi",
+    },
+  },
 ];
 
 const getStatusColor = (status: string) => {
   switch (status) {
-    case "new": return "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200";
-    case "contacted": return "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200";
-    case "qualified": return "bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200";
-    case "converted": return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200";
-    case "lost": return "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200";
-    default: return "bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200";
+    case "new":
+      return "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200";
+    case "contacted":
+      return "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200";
+    case "qualified":
+      return "bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200";
+    case "converted":
+      return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200";
+    case "lost":
+      return "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200";
+    default:
+      return "bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200";
   }
 };
 
 const getPriorityColor = (priority: string) => {
   switch (priority) {
-    case "high": return "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200";
-    case "medium": return "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200";
-    case "low": return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200";
-    default: return "bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200";
+    case "high":
+      return "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200";
+    case "medium":
+      return "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200";
+    case "low":
+      return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200";
+    default:
+      return "bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200";
   }
 };
 
 const formatDate = (dateString: string) => {
-  return new Date(dateString).toLocaleDateString('pt-BR', {
-    day: '2-digit',
-    month: '2-digit',
-    year: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit'
+  return new Date(dateString).toLocaleDateString("pt-BR", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
   });
 };
 
@@ -184,13 +200,16 @@ export default function Index() {
   const [statusFilter, setStatusFilter] = useState("all");
   const [sourceFilter, setSourceFilter] = useState("all");
 
-  const filteredLeads = leads.filter(lead => {
-    const matchesSearch = lead.data.nome.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         lead.data.whatsapp.includes(searchTerm) ||
-                         lead.data.cep.includes(searchTerm);
-    const matchesStatus = statusFilter === "all" || lead.status === statusFilter;
-    const matchesSource = sourceFilter === "all" || lead.source === sourceFilter;
-    
+  const filteredLeads = leads.filter((lead) => {
+    const matchesSearch =
+      lead.data.nome.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      lead.data.whatsapp.includes(searchTerm) ||
+      lead.data.cep.includes(searchTerm);
+    const matchesStatus =
+      statusFilter === "all" || lead.status === statusFilter;
+    const matchesSource =
+      sourceFilter === "all" || lead.source === sourceFilter;
+
     return matchesSearch && matchesStatus && matchesSource;
   });
 
@@ -203,11 +222,17 @@ export default function Index() {
             <div className="flex items-center space-x-6">
               <div className="flex items-center space-x-4">
                 <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-                  <span className="text-primary-foreground font-bold text-lg">E</span>
+                  <span className="text-primary-foreground font-bold text-lg">
+                    E
+                  </span>
                 </div>
                 <div>
-                  <h1 className="text-2xl font-bold text-foreground">Ecko Streetwear</h1>
-                  <p className="text-sm text-muted-foreground">Sistema de Gestão de Leads</p>
+                  <h1 className="text-2xl font-bold text-foreground">
+                    Ecko Streetwear
+                  </h1>
+                  <p className="text-sm text-muted-foreground">
+                    Sistema de Gestão de Leads
+                  </p>
                 </div>
               </div>
 
@@ -255,11 +280,15 @@ export default function Index() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total de Leads</CardTitle>
+              <CardTitle className="text-sm font-medium">
+                Total de Leads
+              </CardTitle>
               <Users className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{stats.totalLeads.toLocaleString()}</div>
+              <div className="text-2xl font-bold">
+                {stats.totalLeads.toLocaleString()}
+              </div>
               <p className="text-xs text-muted-foreground">
                 +{stats.newLeads} novos esta semana
               </p>
@@ -268,7 +297,9 @@ export default function Index() {
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Taxa de Conversão</CardTitle>
+              <CardTitle className="text-sm font-medium">
+                Taxa de Conversão
+              </CardTitle>
               <TrendingUp className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
@@ -281,7 +312,9 @@ export default function Index() {
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Qualificados</CardTitle>
+              <CardTitle className="text-sm font-medium">
+                Qualificados
+              </CardTitle>
               <Phone className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
@@ -299,9 +332,7 @@ export default function Index() {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{stats.newLeads}</div>
-              <p className="text-xs text-muted-foreground">
-                Nas últimas 24h
-              </p>
+              <p className="text-xs text-muted-foreground">Nas últimas 24h</p>
             </CardContent>
           </Card>
         </div>
@@ -356,19 +387,33 @@ export default function Index() {
           <CardContent>
             <div className="space-y-4">
               {filteredLeads.map((lead) => (
-                <div key={lead.id} className="flex items-center justify-between p-4 border rounded-lg hover:bg-muted/50 transition-colors">
+                <div
+                  key={lead.id}
+                  className="flex items-center justify-between p-4 border rounded-lg hover:bg-muted/50 transition-colors"
+                >
                   <div className="flex items-center space-x-4">
                     <Avatar>
-                      <AvatarFallback>{lead.data.nome.split(' ').map(n => n[0]).join('')}</AvatarFallback>
+                      <AvatarFallback>
+                        {lead.data.nome
+                          .split(" ")
+                          .map((n) => n[0])
+                          .join("")}
+                      </AvatarFallback>
                     </Avatar>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center space-x-2 mb-1">
-                        <h3 className="font-semibold text-foreground">{lead.data.nome}</h3>
-                        <Badge className={getStatusColor(lead.status || 'new')}>
-                          {lead.status || 'new'}
+                        <h3 className="font-semibold text-foreground">
+                          {lead.data.nome}
+                        </h3>
+                        <Badge className={getStatusColor(lead.status || "new")}>
+                          {lead.status || "new"}
                         </Badge>
-                        <Badge className={getPriorityColor(lead.priority || 'medium')}>
-                          {lead.priority || 'medium'}
+                        <Badge
+                          className={getPriorityColor(
+                            lead.priority || "medium",
+                          )}
+                        >
+                          {lead.priority || "medium"}
                         </Badge>
                       </div>
                       <div className="flex items-center space-x-4 text-sm text-muted-foreground">

@@ -65,8 +65,8 @@ export interface Lead {
   source: string;
   traffic: Traffic;
   interaction: Interaction;
-  status?: 'new' | 'contacted' | 'qualified' | 'converted' | 'lost';
-  priority?: 'low' | 'medium' | 'high';
+  status?: "new" | "contacted" | "qualified" | "converted" | "lost";
+  priority?: "low" | "medium" | "high";
   notes?: string;
   assignedTo?: string;
 }

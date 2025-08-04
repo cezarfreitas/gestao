@@ -1,7 +1,10 @@
 import "dotenv/config";
 import express from "express";
 import cors from "cors";
-import { checkDatabaseAvailability, addDatabaseStatus } from "./database/manager.js";
+import {
+  checkDatabaseAvailability,
+  addDatabaseStatus,
+} from "./database/manager.js";
 import { handleDemo } from "./routes/demo";
 import {
   getLeads,
@@ -9,7 +12,7 @@ import {
   getLeadById,
   createLead,
   updateLead,
-  deleteLead
+  deleteLead,
 } from "./routes/leads";
 import {
   trackPixelEvent,
@@ -19,7 +22,7 @@ import {
   updatePixel,
   deletePixel,
   getPixelAnalytics,
-  getPixelEvents
+  getPixelEvents,
 } from "./routes/pixel";
 
 export function createServer() {
@@ -29,14 +32,16 @@ export function createServer() {
   checkDatabaseAvailability()
     .then((isAvailable) => {
       if (isAvailable) {
-        console.log('🚀 Server ready with database connection');
+        console.log("🚀 Server ready with database connection");
       } else {
-        console.log('🚀 Server ready with mock data (database unavailable)');
-        console.log('📝 To enable database: check connection to server.idenegociosdigitais.com.br:3308');
+        console.log("🚀 Server ready with mock data (database unavailable)");
+        console.log(
+          "📝 To enable database: check connection to server.idenegociosdigitais.com.br:3308",
+        );
       }
     })
     .catch(() => {
-      console.log('🚀 Server ready with mock data fallback');
+      console.log("🚀 Server ready with mock data fallback");
     });
 
   // Middleware
