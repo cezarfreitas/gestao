@@ -48,68 +48,31 @@ interface Pixel {
 // Remove mock data - will fetch from database
 
 const generatePixelCode = (pixelId: string, siteName: string) => {
-  return `<!-- Ecko Pixel Tracking -->
-<script type="text/javascript">
-(function() {
-  var eckoPixel = {
-    id: "${pixelId}",
-    site: "${siteName}",
-    version: "1.0.0"
-  };
-  
-  function trackEvent(eventType, data) {
-    fetch('/api/pixel/track', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        pixelId: eckoPixel.id,
-        site: eckoPixel.site,
-        eventType: eventType,
-        timestamp: new Date().toISOString(),
-        url: window.location.href,
-        referrer: document.referrer,
-        userAgent: navigator.userAgent,
-        ...data
-      })
-    }).catch(function(error) {
-      console.error('Ecko Pixel Error:', error);
-    });
-  }
-  
-  // Track page view
-  trackEvent('pageview', {
-    title: document.title,
-    path: window.location.pathname
-  });
-  
-  // Track form submissions
-  document.addEventListener('submit', function(e) {
-    if (e.target.tagName === 'FORM') {
-      trackEvent('form_submit', {
-        formId: e.target.id || 'unknown',
-        formAction: e.target.action || window.location.href
-      });
-    }
-  });
-  
-  // Track clicks on CTA buttons
-  document.addEventListener('click', function(e) {
-    if (e.target.matches('[data-ecko-track], .btn-cta, .hero-cta, .footer-cta')) {
-      trackEvent('cta_click', {
-        element: e.target.tagName,
-        text: e.target.textContent || e.target.value,
-        class: e.target.className,
-        id: e.target.id
-      });
-    }
-  });
-  
-  window.eckoPixel = eckoPixel;
+  return `<!-- Ecko Pixel -->
+<script>
+(function(){
+var p={id:"${pixelId}",site:"${siteName}",v:"1.0"};
+function t(e,d){
+fetch('/api/pixel/track',{
+method:'POST',
+headers:{'Content-Type':'application/json'},
+body:JSON.stringify({
+pixelId:p.id,site:p.site,eventType:e,
+timestamp:new Date().toISOString(),
+url:location.href,referrer:document.referrer,
+userAgent:navigator.userAgent,...d})
+}).catch(console.error);}
+t('pageview',{title:document.title,path:location.pathname});
+document.addEventListener('submit',function(e){
+if(e.target.tagName==='FORM')
+t('form_submit',{formId:e.target.id||'unknown'});
+});
+document.addEventListener('click',function(e){
+if(e.target.matches('[data-ecko-track],.btn-cta,.hero-cta,.footer-cta'))
+t('cta_click',{element:e.target.tagName,text:e.target.textContent||e.target.value});
+});
 })();
-</script>
-<!-- End Ecko Pixel -->`;
+</script>`;
 };
 
 const getStatusColor = (status: string) => {
@@ -500,7 +463,7 @@ export default function Pixel() {
                 <div>
                   <h3 className="text-lg font-semibold mb-2">2. Instalando o Código</h3>
                   <p className="text-muted-foreground">
-                    Copie o código gerado e cole no &lt;head&gt; de todas as p��ginas do seu site 
+                    Copie o código gerado e cole no &lt;head&gt; de todas as p����ginas do seu site 
                     que você deseja rastrear.
                   </p>
                 </div>
