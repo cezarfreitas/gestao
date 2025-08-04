@@ -29,6 +29,66 @@ import {
   Target
 } from "lucide-react";
 
+// Mock data for 7 different sites
+const mockSites = [
+  {
+    name: "Ecko Streetwear",
+    title: "Ecko Streetwear - Seja um Lojista Oficial",
+    url: "https://ecko.com.br",
+    leads: 892,
+    conversion: 15.2,
+    status: "active"
+  },
+  {
+    name: "Ecko Kids",
+    title: "Ecko Kids - Moda Infantil Oficial",
+    url: "https://kids.ecko.com.br",
+    leads: 567,
+    conversion: 12.8,
+    status: "active"
+  },
+  {
+    name: "Ecko Feminino",
+    title: "Ecko Feminino - Coleção Exclusiva",
+    url: "https://women.ecko.com.br",
+    leads: 423,
+    conversion: 18.1,
+    status: "active"
+  },
+  {
+    name: "Ecko Outlet",
+    title: "Ecko Outlet - Ofertas Especiais",
+    url: "https://outlet.ecko.com.br",
+    leads: 334,
+    conversion: 9.4,
+    status: "active"
+  },
+  {
+    name: "Ecko Pro",
+    title: "Ecko Pro - Linha Profissional",
+    url: "https://pro.ecko.com.br",
+    leads: 289,
+    conversion: 22.3,
+    status: "active"
+  },
+  {
+    name: "Ecko Accessories",
+    title: "Ecko Accessories - Acessórios Originais",
+    url: "https://accessories.ecko.com.br",
+    leads: 198,
+    conversion: 14.7,
+    status: "active"
+  },
+  {
+    name: "Ecko Limited",
+    title: "Ecko Limited - Edições Limitadas",
+    url: "https://limited.ecko.com.br",
+    leads: 156,
+    conversion: 28.5,
+    status: "beta"
+  }
+];
+
 // Mock analytics data based on the payload structure
 const mockAnalytics = {
   leadSources: [
