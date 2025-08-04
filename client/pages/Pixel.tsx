@@ -45,50 +45,7 @@ interface Pixel {
   conversionRate: number;
 }
 
-const mockPixels: Pixel[] = [
-  {
-    id: "px_001",
-    name: "Ecko Streetwear - Homepage",
-    description: "Pixel principal para tracking da homepage",
-    code: "px_001_ecko_main",
-    status: "active",
-    site: "https://ecko.com.br",
-    createdAt: "2024-01-10T10:00:00.000Z",
-    lastHit: "2024-01-15T14:30:00.000Z",
-    totalHits: 15420,
-    uniqueVisitors: 8930,
-    conversions: 234,
-    conversionRate: 2.62
-  },
-  {
-    id: "px_002",
-    name: "Ecko Kids - Landing Page",
-    description: "Tracking específico para campanhas do Ecko Kids",
-    code: "px_002_kids_lp",
-    status: "active",
-    site: "https://kids.ecko.com.br",
-    createdAt: "2024-01-08T15:20:00.000Z",
-    lastHit: "2024-01-15T13:45:00.000Z",
-    totalHits: 8760,
-    uniqueVisitors: 5240,
-    conversions: 156,
-    conversionRate: 2.98
-  },
-  {
-    id: "px_003",
-    name: "Ecko Outlet - Promoções",
-    description: "Pixel para campanhas promocionais do outlet",
-    code: "px_003_outlet_promo",
-    status: "testing",
-    site: "https://outlet.ecko.com.br",
-    createdAt: "2024-01-14T09:15:00.000Z",
-    lastHit: "2024-01-15T12:20:00.000Z",
-    totalHits: 1240,
-    uniqueVisitors: 890,
-    conversions: 23,
-    conversionRate: 2.58
-  }
-];
+// Remove mock data - will fetch from database
 
 const generatePixelCode = (pixelId: string, siteName: string) => {
   return `<!-- Ecko Pixel Tracking -->
