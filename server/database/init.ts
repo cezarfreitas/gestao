@@ -236,7 +236,7 @@ export const insertSampleData = async () => {
     // Sample interaction data
     const interactionSQL = `
       INSERT IGNORE INTO interactions (
-        lead_id, session_start_time, time_on_site, current_timestamp, session_id,
+        lead_id, session_start_time, time_on_site, interaction_timestamp, session_id,
         page_views, scroll_depth, touch_device, connection_type
       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
