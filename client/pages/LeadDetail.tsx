@@ -128,8 +128,8 @@ export default function LeadDetail() {
                   <span className="text-primary-foreground font-bold text-lg">E</span>
                 </div>
                 <div>
-                  <h1 className="text-2xl font-bold text-foreground">Detalhes do Lead</h1>
-                  <p className="text-sm text-muted-foreground">Informações completas do prospecto</p>
+                  <h1 className="text-2xl font-bold text-foreground">Ecko Streetwear</h1>
+                  <p className="text-sm text-muted-foreground">Sistema de Gestão de Leads</p>
                 </div>
               </div>
 
@@ -139,14 +139,14 @@ export default function LeadDetail() {
                   to="/"
                   className="flex items-center space-x-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
                 >
-                  <User className="w-4 h-4" />
+                  <Users className="w-4 h-4" />
                   <span>Leads</span>
                 </Link>
                 <Link
                   to="/dashboards"
                   className="flex items-center space-x-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
                 >
-                  <Building className="w-4 h-4" />
+                  <TrendingUp className="w-4 h-4" />
                   <span>Análises</span>
                 </Link>
               </nav>
