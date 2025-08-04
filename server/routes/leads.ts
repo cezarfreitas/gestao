@@ -47,7 +47,7 @@ export const getLeads: RequestHandler = async (req, res) => {
         l.*,
         t.referrer, t.user_agent, t.language, t.platform, t.screen_resolution,
         t.viewport_size, t.timezone, t.cookies_enabled, t.online_status, t.url, t.pathname, t.search, t.hash,
-        i.session_start_time, i.time_on_site, i.current_timestamp, i.session_id,
+        i.session_start_time, i.time_on_site, i.interaction_timestamp, i.session_id,
         i.page_views, i.scroll_depth, i.touch_device, i.connection_type
       FROM leads l
       LEFT JOIN traffic t ON l.id = t.lead_id
@@ -101,7 +101,7 @@ export const getLeads: RequestHandler = async (req, res) => {
       interaction: {
         sessionStartTime: row.session_start_time?.toISOString() || new Date().toISOString(),
         timeOnSite: row.time_on_site || 0,
-        currentTimestamp: row.current_timestamp?.toISOString() || new Date().toISOString(),
+        currentTimestamp: row.interaction_timestamp?.toISOString() || new Date().toISOString(),
         sessionId: row.session_id || '',
         pageViews: row.page_views || 0,
         scrollDepth: row.scroll_depth || 0,
@@ -197,7 +197,7 @@ export const getLeadById: RequestHandler = async (req, res) => {
         l.*,
         t.referrer, t.user_agent, t.language, t.platform, t.screen_resolution,
         t.viewport_size, t.timezone, t.cookies_enabled, t.online_status, t.url, t.pathname, t.search, t.hash,
-        i.session_start_time, i.time_on_site, i.current_timestamp, i.session_id,
+        i.session_start_time, i.time_on_site, i.interaction_timestamp, i.session_id,
         i.page_views, i.scroll_depth, i.touch_device, i.connection_type
       FROM leads l
       LEFT JOIN traffic t ON l.id = t.lead_id
@@ -252,7 +252,7 @@ export const getLeadById: RequestHandler = async (req, res) => {
       interaction: {
         sessionStartTime: row.session_start_time?.toISOString() || new Date().toISOString(),
         timeOnSite: row.time_on_site || 0,
-        currentTimestamp: row.current_timestamp?.toISOString() || new Date().toISOString(),
+        currentTimestamp: row.interaction_timestamp?.toISOString() || new Date().toISOString(),
         sessionId: row.session_id || '',
         pageViews: row.page_views || 0,
         scrollDepth: row.scroll_depth || 0,
@@ -330,7 +330,7 @@ export const createLead: RequestHandler = async (req, res) => {
     // Insert interaction data
     const interactionSQL = `
       INSERT INTO interactions (
-        lead_id, session_start_time, time_on_site, current_timestamp, session_id,
+        lead_id, session_start_time, time_on_site, interaction_timestamp, session_id,
         page_views, scroll_depth, touch_device, connection_type
       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
