@@ -171,28 +171,33 @@ export default function Pixel() {
   const avgConversionRate = pixels.length > 0 ? 
     pixels.reduce((sum, pixel) => sum + pixel.conversionRate, 0) / pixels.length : 0;
 
-  const handleCreatePixel = () => {
+  const handleCreatePixel = async () => {
     if (!newPixel.name || !newPixel.site) return;
-    
-    const pixelId = `px_${Date.now().toString().slice(-6)}`;
-    const newPixelData: Pixel = {
-      id: pixelId,
-      name: newPixel.name,
-      description: newPixel.description,
-      code: `${pixelId}_${newPixel.site.replace(/[^a-zA-Z0-9]/g, '_').toLowerCase()}`,
-      status: "testing",
-      site: newPixel.site,
-      createdAt: new Date().toISOString(),
-      lastHit: new Date().toISOString(),
-      totalHits: 0,
-      uniqueVisitors: 0,
-      conversions: 0,
-      conversionRate: 0
-    };
-    
-    setPixels([...pixels, newPixelData]);
-    setNewPixel({ name: "", description: "", site: "" });
-    setShowCreateDialog(false);
+
+    try {
+      const response = await fetch('/api/pixels', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: newPixel.name,
+          description: newPixel.description,
+          site: newPixel.site
+        })
+      });
+
+      if (response.ok) {
+        const createdPixel = await response.json();
+        setPixels([...pixels, createdPixel]);
+        setNewPixel({ name: "", description: "", site: "" });
+        setShowCreateDialog(false);
+      } else {
+        console.error('Failed to create pixel');
+      }
+    } catch (error) {
+      console.error('Error creating pixel:', error);
+    }
   };
 
   const copyToClipboard = (text: string) => {
@@ -479,7 +484,7 @@ export default function Pixel() {
                 <div>
                   <h3 className="text-lg font-semibold mb-2">2. Instalando o Código</h3>
                   <p className="text-muted-foreground">
-                    Copie o código gerado e cole no &lt;head&gt; de todas as páginas do seu site 
+                    Copie o código gerado e cole no &lt;head&gt; de todas as p��ginas do seu site 
                     que você deseja rastrear.
                   </p>
                 </div>
