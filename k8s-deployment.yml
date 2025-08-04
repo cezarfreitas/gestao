@@ -1,0 +1,113 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ecko-leads-app
+  labels:
+    app: ecko-leads
+    version: v1
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: ecko-leads
+  template:
+    metadata:
+      labels:
+        app: ecko-leads
+        version: v1
+    spec:
+      containers:
+      - name: ecko-leads
+        image: ecko-leads-system:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+        env:
+        - name: NODE_ENV
+          value: "production"
+        - name: DB_HOST
+          value: "148.230.78.129"
+        - name: DB_PORT
+          value: "3459"
+        - name: DB_USER
+          value: "leads"
+        - name: DB_PASSWORD
+          value: "e35dc30e2cfa66364f67"
+        - name: DB_NAME
+          value: "leads"
+        - name: API_BASE_URL
+          value: "https://ntk.idenegociosdigitais.com.br"
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /api/ping
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /api/ping
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 3
+        volumeMounts:
+        - name: logs-volume
+          mountPath: /app/logs
+      volumes:
+      - name: logs-volume
+        emptyDir: {}
+      restartPolicy: Always
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ecko-leads-service
+  labels:
+    app: ecko-leads
+spec:
+  selector:
+    app: ecko-leads
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8080
+    name: http
+  type: ClusterIP
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ecko-leads-ingress
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+spec:
+  tls:
+  - hosts:
+    - ntk.idenegociosdigitais.com.br
+    secretName: ecko-leads-tls
+  rules:
+  - host: ntk.idenegociosdigitais.com.br
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: ecko-leads-service
+            port:
+              number: 80
