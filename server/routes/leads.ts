@@ -1,6 +1,7 @@
 import { RequestHandler } from "express";
 import { Lead, LeadStatsResponse, LeadListResponse } from "@shared/api";
 import { query } from "../database/connection.js";
+import { shouldUseDatabase, mockLeads, mockStats } from "../database/manager.js";
 import { v4 as uuidv4 } from 'uuid';
 
 // Get all leads with filtering and pagination
