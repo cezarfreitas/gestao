@@ -123,22 +123,22 @@ export default function Dashboards() {
                   <span className="text-primary-foreground font-bold text-lg">E</span>
                 </div>
                 <div>
-                  <h1 className="text-2xl font-bold text-foreground">Dashboards</h1>
-                  <p className="text-sm text-muted-foreground">Análise Completa de Leads</p>
+                  <h1 className="text-2xl font-bold text-foreground">Ecko Streetwear</h1>
+                  <p className="text-sm text-muted-foreground">Sistema de Gestão de Leads</p>
                 </div>
               </div>
-              
+
               {/* Navigation Menu */}
               <nav className="hidden md:flex items-center space-x-6">
-                <Link 
-                  to="/" 
+                <Link
+                  to="/"
                   className="flex items-center space-x-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
                 >
                   <Users className="w-4 h-4" />
-                  <span>Dashboard</span>
+                  <span>Leads</span>
                 </Link>
-                <Link 
-                  to="/dashboards" 
+                <Link
+                  to="/dashboards"
                   className="flex items-center space-x-2 text-sm font-medium text-foreground hover:text-primary transition-colors"
                 >
                   <BarChart3 className="w-4 h-4" />
