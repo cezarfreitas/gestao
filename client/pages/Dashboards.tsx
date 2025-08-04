@@ -292,11 +292,12 @@ export default function Dashboards() {
         </div>
 
         <Tabs defaultValue="sources" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4">
+          <TabsList className="grid w-full grid-cols-5">
             <TabsTrigger value="sources">Fontes & Origens</TabsTrigger>
             <TabsTrigger value="devices">Dispositivos</TabsTrigger>
             <TabsTrigger value="behavior">Comportamento</TabsTrigger>
             <TabsTrigger value="regions">Regiões</TabsTrigger>
+            <TabsTrigger value="sites">Sites</TabsTrigger>
           </TabsList>
 
           {/* Sources & Origins Tab */}
