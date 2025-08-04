@@ -25,6 +25,20 @@ import {
 export function createServer() {
   const app = express();
 
+  // Initialize database on startup
+  initializeDatabase()
+    .then(() => {
+      console.log('📊 Database initialized successfully');
+      // Insert sample data only if needed
+      return insertSampleData();
+    })
+    .then(() => {
+      console.log('🔧 Sample data inserted successfully');
+    })
+    .catch((error) => {
+      console.error('❌ Database initialization failed:', error);
+    });
+
   // Middleware
   app.use(cors());
   app.use(express.json());
