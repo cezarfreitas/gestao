@@ -165,7 +165,7 @@ const mockStats: LeadStatsResponse = {
   }
 };
 
-// Generate mock daily leads data for the last 30 days
+// Generate mock daily leads data for the last 30 days with individual site data
 const generateDailyLeadsData = () => {
   const data = [];
   const today = new Date();
@@ -174,16 +174,26 @@ const generateDailyLeadsData = () => {
     const date = new Date(today);
     date.setDate(date.getDate() - i);
 
-    // Simulate varying lead counts with some weekly patterns
-    const baseLeads = 15 + Math.random() * 20;
     const weekdayMultiplier = date.getDay() >= 1 && date.getDay() <= 5 ? 1.2 : 0.8;
-    const leads = Math.round(baseLeads * weekdayMultiplier);
+
+    // Generate leads for each site based on their relative performance
+    const siteLeads = {
+      'Ecko Streetwear': Math.round((8 + Math.random() * 12) * weekdayMultiplier),
+      'Ecko Kids': Math.round((4 + Math.random() * 8) * weekdayMultiplier),
+      'Ecko Feminino': Math.round((3 + Math.random() * 6) * weekdayMultiplier),
+      'Ecko Outlet': Math.round((2 + Math.random() * 5) * weekdayMultiplier),
+      'Ecko Pro': Math.round((2 + Math.random() * 4) * weekdayMultiplier),
+      'Ecko Accessories': Math.round((1 + Math.random() * 3) * weekdayMultiplier),
+      'Ecko Limited': Math.round((1 + Math.random() * 2) * weekdayMultiplier)
+    };
+
+    const totalLeads = Object.values(siteLeads).reduce((sum, leads) => sum + leads, 0);
 
     data.push({
       date: date.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' }),
       fullDate: date.toLocaleDateString('pt-BR'),
-      leads: leads,
-      cumulative: data.length > 0 ? data[data.length - 1].cumulative + leads : leads
+      total: totalLeads,
+      ...siteLeads
     });
   }
 
