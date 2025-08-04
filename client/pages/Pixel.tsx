@@ -537,9 +537,12 @@ export default function Pixel() {
                   <h4 className="font-medium text-blue-900 dark:text-blue-100 mb-2">
                     Instruções de Instalação
                   </h4>
-                  <p className="text-sm text-blue-700 dark:text-blue-300">
-                    Cole este código no &lt;head&gt; de todas as páginas do seu site. 
+                  <p className="text-sm text-blue-700 dark:text-blue-300 mb-2">
+                    Cole este código no &lt;head&gt; de todas as páginas do seu site.
                     O pixel começará a coletar dados automaticamente após a instalação.
+                  </p>
+                  <p className="text-xs text-blue-600 dark:text-blue-400">
+                    📍 Dados enviados para: <strong>ntk.idenegociosdigitais.com.br</strong>
                   </p>
                 </div>
               </div>
