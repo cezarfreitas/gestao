@@ -25,25 +25,25 @@ import {
 export function createServer() {
   const app = express();
 
-  // Try to initialize database on startup (graceful fallback if it fails)
-  initializeDatabase()
-    .then(() => {
-      console.log('📊 Database connected and initialized successfully');
-      // Insert sample data only if needed
-      return insertSampleData();
+  // Check database availability on startup
+  checkDatabaseAvailability()
+    .then((isAvailable) => {
+      if (isAvailable) {
+        console.log('🚀 Server ready with database connection');
+      } else {
+        console.log('🚀 Server ready with mock data (database unavailable)');
+        console.log('📝 To enable database: check connection to server.idenegociosdigitais.com.br:3308');
+      }
     })
-    .then(() => {
-      console.log('🔧 Sample data ready');
-    })
-    .catch((error) => {
-      console.warn('⚠️  Database connection failed, using fallback mock data:', error.message);
-      console.log('📝 To fix this, ensure the current IP is whitelisted in MySQL server');
+    .catch(() => {
+      console.log('🚀 Server ready with mock data fallback');
     });
 
   // Middleware
   app.use(cors());
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
+  app.use(addDatabaseStatus);
 
   // Example API routes
   app.get("/api/ping", (_req, res) => {
