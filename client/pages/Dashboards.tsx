@@ -165,6 +165,33 @@ const mockStats: LeadStatsResponse = {
   }
 };
 
+// Generate mock daily leads data for the last 30 days
+const generateDailyLeadsData = () => {
+  const data = [];
+  const today = new Date();
+
+  for (let i = 29; i >= 0; i--) {
+    const date = new Date(today);
+    date.setDate(date.getDate() - i);
+
+    // Simulate varying lead counts with some weekly patterns
+    const baseLeads = 15 + Math.random() * 20;
+    const weekdayMultiplier = date.getDay() >= 1 && date.getDay() <= 5 ? 1.2 : 0.8;
+    const leads = Math.round(baseLeads * weekdayMultiplier);
+
+    data.push({
+      date: date.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' }),
+      fullDate: date.toLocaleDateString('pt-BR'),
+      leads: leads,
+      cumulative: data.length > 0 ? data[data.length - 1].cumulative + leads : leads
+    });
+  }
+
+  return data;
+};
+
+const dailyLeadsData = generateDailyLeadsData();
+
 const formatTime = (seconds: number) => {
   const minutes = Math.floor(seconds / 60);
   return `${minutes}m ${seconds % 60}s`;
