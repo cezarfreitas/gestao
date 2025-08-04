@@ -29,7 +29,8 @@ import {
   PieChart,
   Activity,
   Target,
-  ExternalLink
+  ExternalLink,
+  Code
 } from "lucide-react";
 
 // Mock data for 7 different sites
@@ -688,7 +689,7 @@ export default function Dashboards() {
                   
                   <div className="p-3 bg-orange-50 dark:bg-orange-950 rounded-lg">
                     <div className="text-sm font-medium text-orange-900 dark:text-orange-100 mb-1">
-                      Formulário Hero CTA
+                      Formul��rio Hero CTA
                     </div>
                     <div className="text-xs text-orange-700 dark:text-orange-300">
                       35% dos leads vêm do formulário principal
