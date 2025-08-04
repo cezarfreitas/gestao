@@ -370,9 +370,11 @@ export default function Index() {
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
-                      <DropdownMenuItem>
-                        <Eye className="w-4 h-4 mr-2" />
-                        Ver Detalhes
+                      <DropdownMenuItem asChild>
+                        <Link to={`/leads/${lead.id}`}>
+                          <Eye className="w-4 h-4 mr-2" />
+                          Ver Detalhes
+                        </Link>
                       </DropdownMenuItem>
                       <DropdownMenuItem>
                         <Edit className="w-4 h-4 mr-2" />
