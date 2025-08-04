@@ -45,5 +45,15 @@ export function createServer() {
   app.put("/api/leads/:id", updateLead);
   app.delete("/api/leads/:id", deleteLead);
 
+  // Pixel tracking API routes
+  app.post("/api/pixel/track", trackPixelEvent);
+  app.get("/api/pixels", getPixels);
+  app.get("/api/pixels/:id", getPixelById);
+  app.post("/api/pixels", createPixel);
+  app.put("/api/pixels/:id", updatePixel);
+  app.delete("/api/pixels/:id", deletePixel);
+  app.get("/api/pixels/:id/analytics", getPixelAnalytics);
+  app.get("/api/pixels/:id/events", getPixelEvents);
+
   return app;
 }
