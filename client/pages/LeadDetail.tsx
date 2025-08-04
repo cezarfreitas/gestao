@@ -137,17 +137,17 @@ export default function LeadDetail() {
               <nav className="hidden md:flex items-center space-x-6">
                 <Link
                   to="/"
-                  className="flex items-center space-x-2 text-sm font-medium text-foreground hover:text-primary transition-colors"
+                  className="flex items-center space-x-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
                 >
                   <User className="w-4 h-4" />
-                  <span>Dashboard</span>
+                  <span>Leads</span>
                 </Link>
                 <Link
-                  to="/"
+                  to="/dashboards"
                   className="flex items-center space-x-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
                 >
                   <Building className="w-4 h-4" />
-                  <span>Leads</span>
+                  <span>Análises</span>
                 </Link>
               </nav>
             </div>
