@@ -359,13 +359,7 @@ export default function Dashboards() {
           <CardContent>
             <div className="h-80">
               <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={dailyLeadsData}>
-                  <defs>
-                    <linearGradient id="colorLeads" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.3}/>
-                      <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0}/>
-                    </linearGradient>
-                  </defs>
+                <LineChart data={dailyLeadsData}>
                   <CartesianGrid strokeDasharray="3 3" className="opacity-30" />
                   <XAxis
                     dataKey="date"
@@ -388,7 +382,7 @@ export default function Dashboards() {
                     labelStyle={{ color: 'hsl(var(--foreground))' }}
                     formatter={(value: any, name: string) => [
                       `${value} leads`,
-                      name === 'leads' ? 'Leads do Dia' : name
+                      name
                     ]}
                     labelFormatter={(label: any, payload: any) => {
                       if (payload && payload[0]) {
@@ -397,15 +391,24 @@ export default function Dashboards() {
                       return `Data: ${label}`;
                     }}
                   />
-                  <Area
-                    type="monotone"
-                    dataKey="leads"
-                    stroke="hsl(var(--primary))"
-                    strokeWidth={2}
-                    fillOpacity={1}
-                    fill="url(#colorLeads)"
+                  <Legend
+                    wrapperStyle={{ paddingTop: '20px' }}
+                    iconType="line"
                   />
-                </AreaChart>
+
+                  {/* Line for each site */}
+                  {Object.keys(siteColors).map((siteName) => (
+                    <Line
+                      key={siteName}
+                      type="monotone"
+                      dataKey={siteName}
+                      stroke={siteColors[siteName as keyof typeof siteColors]}
+                      strokeWidth={2}
+                      dot={{ r: 3 }}
+                      activeDot={{ r: 5 }}
+                    />
+                  ))}
+                </LineChart>
               </ResponsiveContainer>
             </div>
 
