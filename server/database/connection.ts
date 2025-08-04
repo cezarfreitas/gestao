@@ -3,10 +3,10 @@ import mysql from 'mysql2/promise';
 // Database configuration
 const dbConfig = {
   host: 'server.idenegociosdigitais.com.br',
-  port: 3308,
-  user: 'leadsntk',
-  password: 'cbfb25e40439aa14fed4',
-  database: 'leadsntk',
+  port: 3459,
+  user: 'leads',
+  password: 'e35dc30e2cfa66364f67',
+  database: 'leads',
   connectionLimit: 5,
   connectTimeout: 20000,
   waitForConnections: true,
