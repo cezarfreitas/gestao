@@ -200,14 +200,34 @@ export default function Index() {
       <header className="border-b bg-card">
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
-              <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-                <span className="text-primary-foreground font-bold text-lg">E</span>
+            <div className="flex items-center space-x-6">
+              <div className="flex items-center space-x-4">
+                <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+                  <span className="text-primary-foreground font-bold text-lg">E</span>
+                </div>
+                <div>
+                  <h1 className="text-2xl font-bold text-foreground">Ecko Streetwear</h1>
+                  <p className="text-sm text-muted-foreground">Sistema de Gestão de Leads</p>
+                </div>
               </div>
-              <div>
-                <h1 className="text-2xl font-bold text-foreground">Ecko Streetwear</h1>
-                <p className="text-sm text-muted-foreground">Sistema de Gestão de Leads</p>
-              </div>
+
+              {/* Navigation Menu */}
+              <nav className="hidden md:flex items-center space-x-6">
+                <Link
+                  to="/"
+                  className="flex items-center space-x-2 text-sm font-medium text-foreground hover:text-primary transition-colors"
+                >
+                  <Users className="w-4 h-4" />
+                  <span>Dashboard</span>
+                </Link>
+                <Link
+                  to="/"
+                  className="flex items-center space-x-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  <TrendingUp className="w-4 h-4" />
+                  <span>Leads</span>
+                </Link>
+              </nav>
             </div>
             <div className="flex items-center space-x-2">
               <Button variant="outline" size="sm">
